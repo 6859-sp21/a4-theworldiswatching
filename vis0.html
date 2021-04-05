@@ -19,7 +19,7 @@
 <!--    </div>-->
 
     <script>
-        d3.json('data/test0_geoJSONPlotting.geojson').then(function(bb) {
+        d3.json('data/non_us_first_100.geojson').then(function(bb) {
         let width = 700, height = 580; // TODO: change these to fit the screen
         let projection = d3.geoEquirectangular();
         projection.fitSize([width, height], bb);
