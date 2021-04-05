@@ -21,7 +21,7 @@
 </div>
 
     <script type="text/javascript">
-          let width = 700, height = 580; // TODO: change these to fit the screen
+          let width = 1000, height = 800; // TODO: change these to fit the screen
           let projection = d3.geoEquirectangular();
           projection.fitSize([width, height], non_us_data);
           let geoGenerator = d3.geoPath().projection(projection);
@@ -32,8 +32,8 @@
                   .data(world_map_json.features)
                   .enter()
                   .append("path")
-                  .attr( "fill", "#ccc" )
-                  .attr( "stroke", "#333")
+                  .attr( "fill", "#000" )
+                  .attr( "stroke", "#fff")
                   .attr( "d", geoGenerator );
           
           let point_svg = svg.append("g");
@@ -41,7 +41,7 @@
                         .data(non_us_data.features)
                         .enter()
                         .append('path')
-                        .attr( "fill", "#900" )
+                        .attr( "fill", "#66e" )
                         .attr( "stroke", "#999" )
                         .attr('d', geoGenerator);
         // to run the server, run python3 -m http.server
