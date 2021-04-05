@@ -1,43 +1,45 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 
 <head>
-  <script src="https://d3js.org/d3.v5.min.js">
-  </script>
-<!--  <script src="https://d3js.org/d3-geo-projection.v2.min.js"> </script>-->
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
   <title> The World is Watching </title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="1671.6">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="./data/world.json"></script>
+  <script src="./data/non_us_first_100.geojson"></script>
   <style type="text/css">
   </style>
 </head>
 
 <body>
-<!--    <div id = "mapcontainer">-->
-<!--    </div>-->
-
 <div id="sliderContainer">
   <input id="timeslide" type="range" min="0" max="24" value="0" step="1"/><br>
   <span id="range">October 15, 2020</span>
 </div>
 
-    <script>
-        d3.json('data/non_us_first_100.geojson').then(function(bb) {
-        let width = 700, height = 580; // TODO: change these to fit the screen
-        let projection = d3.geoEquirectangular();
-        projection.fitSize([width, height], bb);
-        let geoGenerator = d3.geoPath().projection(projection);
-        let svg = d3.select("body").append('svg')
-                    .style("width", width).style("height", height);
-        svg.append('g').selectAll('path')
-                       .data(bb.features)
-                       .join('path')
-                       .attr('d', geoGenerator)
-                       .attr('fill', '#088')
-                       .attr('stroke', '#000');
-        });
+    <script type="text/javascript">
+          let width = 700, height = 580; // TODO: change these to fit the screen
+          let projection = d3.geoEquirectangular();
+          projection.fitSize([width, height], non_us_data);
+          let geoGenerator = d3.geoPath().projection(projection);
+          let svg = d3.select("body").append('svg')
+                      .style("width", width).style("height", height);
+          let map_svg = svg.append("g");
+          map_svg.selectAll("path")
+                  .data(world_map_json.features)
+                  .enter()
+                  .append("path")
+                  .attr( "fill", "#ccc" )
+                  .attr( "stroke", "#333")
+                  .attr( "d", geoGenerator );
+          
+          let point_svg = svg.append("g");
+          point_svg.selectAll('path')
+                        .data(non_us_data.features)
+                        .enter()
+                        .append('path')
+                        .attr( "fill", "#900" )
+                        .attr( "stroke", "#999" )
+                        .attr('d', geoGenerator);
         // to run the server, run python3 -m http.server
 
         var inputValue = null;
