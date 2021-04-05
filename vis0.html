@@ -11,8 +11,6 @@
 </head>
 
 <body>
-<!--    <div id = "mapcontainer">-->
-<!--    </div>-->
 <h2>TEST</h2>
 
 <div id="sliderContainer">
@@ -20,12 +18,17 @@
   <span id="range">October 15, 2020</span>
 </div>
 
+    <input type="text" placeholder="Search hashtags">
+    <button>Search</button>
+
+    <div id="map-placeholder"></div>
+
     <script type="text/javascript">
           let width = 1000, height = 800; // TODO: change these to fit the screen
           let projection = d3.geoEquirectangular();
           projection.fitSize([width, height], non_us_data);
           let geoGenerator = d3.geoPath().projection(projection);
-          let svg = d3.select("body").append('svg')
+          let svg = d3.select("#map-placeholder").append('svg')
                       .style("width", width).style("height", height);
           let map_svg = svg.append("g");
           map_svg.selectAll("path")
