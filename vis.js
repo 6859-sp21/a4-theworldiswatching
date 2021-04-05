@@ -56,6 +56,9 @@ function update(value) {
         .text(d => `${d.properties.created_at}`)
 };
 
-function searchHashtag() {
-    
+const searchBoxInput = document.getElementById("hashtag-search-box");
+searchBoxInput.addEventListener('input', updateSearch);
+
+function updateSearch(e) {
+    console.log(e.target.value);
 }
