@@ -17,6 +17,7 @@
 <body>
 <!--    <div id = "mapcontainer">-->
 <!--    </div>-->
+<h2>TEST</h2>
 
 <div id="sliderContainer">
   <input id="timeslide" type="range" min="0" max="24" value="0" step="1"/><br>
@@ -37,6 +38,22 @@
                        .attr('d', geoGenerator)
                        .attr('fill', '#088')
                        .attr('stroke', '#000');
+        
+
+        // when the input range changes update the value 
+        d3.select("#timeslide").on("input", function() {
+            update(+this.value);
+        });
+
+        // update the fill of each SVG of class "____" with value
+        function update(value) {
+            document.getElementById("range").innerHTML=dates[value];
+            inputValue = dates[value];
+            d3.select("h2")
+                .text(bb.properties)
+            console.log(bb)
+                // .join("path")
+        }
         });
         // to run the server, run python3 -m http.server
 
@@ -47,22 +64,7 @@
                      'October 30, 2020', 'October 31, 2020', 'November 1, 2020', 'November 2, 2020', 'November 3, 2020', 
                      'November 4, 2020', 'November 5, 2020', 'November 6, 2020', 'November 7, 2020', 'November 8, 2020'];
         
-        // when the input range changes update the value 
-        d3.select("#timeslide").on("input", function() {
-            update(+this.value);
-        });
 
-        // update the fill of each SVG of class "____" with value
-        function update(value) {
-            document.getElementById("range").innerHTML=dates[value];
-            inputValue = dates[value];
-            // d3.selectAll("path")
-            //     .join(
-            //       enter => enter, // Map
-            //       update => update,
-            //       exit => exit.remove()
-            //     )
-        }
     </script>
 
 </body>
