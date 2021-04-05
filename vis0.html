@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+  <script src="https://d3js.org/d3.v5.min.js">
+  </script>
+<!--  <script src="https://d3js.org/d3-geo-projection.v2.min.js"> </script>-->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title> The World is Watching </title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1671.6">
+  <style type="text/css">
+  </style>
+</head>
+
+<body>
+<!--    <div id = "mapcontainer">-->
+<!--    </div>-->
+
+    <script>
+        d3.json('data/test0_geoJSONPlotting.geojson').then(function(bb) {
+        let width = 700, height = 580; // TODO: change these to fit the screen
+        let projection = d3.geoNaturalEarth1();
+        projection.fitSize([width, height], bb);
+        let geoGenerator = d3.geoPath().projection(projection);
+        let svg = d3.select("body").append('svg')
+                    .style("width", width).style("height", height);
+        svg.append('g').selectAll('path')
+                       .data(bb.features)
+                       .join('path')
+                       .attr('d', geoGenerator)
+                       .attr('fill', '#088')
+                       .attr('stroke', '#000');
+        });
+        // to run the server, run python3 -m http.server
+    </script>
+
+</body>
+
+</html>
