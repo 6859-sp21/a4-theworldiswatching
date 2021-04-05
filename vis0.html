@@ -18,10 +18,15 @@
 <!--    <div id = "mapcontainer">-->
 <!--    </div>-->
 
+<div id="sliderContainer">
+  <input id="timeslide" type="range" min="0" max="24" value="0" step="1"/><br>
+  <span id="range">October 15, 2020</span>
+</div>
+
     <script>
-        d3.json('test0_geoJSONPlotting.geojson').then(function(bb) {
+        d3.json('data/non_us_first_100.geojson').then(function(bb) {
         let width = 700, height = 580; // TODO: change these to fit the screen
-        let projection = d3.geoNaturalEarth1();
+        let projection = d3.geoEquirectangular();
         projection.fitSize([width, height], bb);
         let geoGenerator = d3.geoPath().projection(projection);
         let svg = d3.select("body").append('svg')
@@ -34,6 +39,30 @@
                        .attr('stroke', '#000');
         });
         // to run the server, run python3 -m http.server
+
+        var inputValue = null;
+        var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'October 18, 2020', 'October 19, 2020',
+                     'October 20, 2020', 'October 21, 2020', 'October 22, 2020', 'October 23, 2020', 'October 24, 2020', 
+                     'October 25, 2020', 'October 26, 2020', 'October 27, 2020', 'October 28, 2020', 'October 29, 2020',
+                     'October 30, 2020', 'October 31, 2020', 'November 1, 2020', 'November 2, 2020', 'November 3, 2020', 
+                     'November 4, 2020', 'November 5, 2020', 'November 6, 2020', 'November 7, 2020', 'November 8, 2020'];
+        
+        // when the input range changes update the value 
+        d3.select("#timeslide").on("input", function() {
+            update(+this.value);
+        });
+
+        // update the fill of each SVG of class "____" with value
+        function update(value) {
+            document.getElementById("range").innerHTML=dates[value];
+            inputValue = dates[value];
+            // d3.selectAll("path")
+            //     .join(
+            //       enter => enter, // Map
+            //       update => update,
+            //       exit => exit.remove()
+            //     )
+        }
     </script>
 
 </body>
