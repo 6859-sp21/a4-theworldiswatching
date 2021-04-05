@@ -53,6 +53,12 @@
                      'October 30, 2020', 'October 31, 2020', 'November 1, 2020', 'November 2, 2020', 'November 3, 2020', 
                      'November 4, 2020', 'November 5, 2020', 'November 6, 2020', 'November 7, 2020', 'November 8, 2020'];
         
+        var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
+                         '10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
+                         '10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
+                         '10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
+                         '10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20'];
+        
         // when the input range changes update the value 
         d3.select("#timeslide").on("input", function() {
             update(+this.value);
@@ -62,9 +68,15 @@
         function update(value) {
             document.getElementById("range").innerHTML=dates[value];
             inputValue = dates[value];
-            
+
             // TODO: Include data filtering
-            // .join("path")
+            const newData = non_us_data.features
+              .filter(d => d.properties.created_at.includes(testDates[value]))
+            console.log(testDates[value])
+
+            d3.select("h2")
+                .data(newData)
+                .text(d => `${d.properties.created_at}`)
         };
 
     </script>
