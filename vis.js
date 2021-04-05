@@ -56,9 +56,28 @@ function update(value) {
         .text(d => `${d.properties.created_at}`)
 };
 
+// ----------- Code related to searching hashtags
 const searchBoxInput = document.getElementById("hashtag-search-box");
 searchBoxInput.addEventListener('input', updateSearch);
 
 function updateSearch(e) {
-    console.log(e.target.value);
+    var searchedHashtag = e.target.value;
+
+    // Filter and get new data
+    const newPointData = non_us_data.features
+                         .filter(function(data) {
+                            var curHashtags = data.properties.hashtags.toLowerCase();
+                            return curHashtags.includes(searchedHashtag.toLowerCase()); 
+                         });
+
+    point_svg.selectAll('path')
+             .data(newPointData)
+             .join(
+                 enter => enter.append('path'),
+                 update => update,
+                 exit => exit.remove()
+             )
+             .attr( "fill", "#66e" )
+             .attr( "stroke", "#999" )
+             .attr('d', geoGenerator);
 }
