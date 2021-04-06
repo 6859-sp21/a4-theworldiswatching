@@ -5,6 +5,11 @@ let geoGenerator = d3.geoPath().projection(projection);
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
 
+// ---  Default values
+var currentDate = '10/15/20';
+var currentHashtag = "";
+var includeUS = false;
+
 var tip = d3.tip()
             .attr('class', 'd3-tip')
             .direction('e').offset([-5, -3])
@@ -33,6 +38,7 @@ map_svg.selectAll("path")
         .on('mouseout', tip.hide)
         .attr( "stroke", "#fff")
         .attr( "d", geoGenerator );
+updateMap();
 
 var inputValue = null;
 var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'October 18, 2020', 'October 19, 2020',
@@ -47,9 +53,6 @@ var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
                 '10/30/20', '10/31/20', '11/1/20', '11/2/20', '11/3/20',
                 '11/4/20', '11/5/20', '11/6/20', '11/7/20', '11/8/20'];
 
-var currentDate = testDates[0];
-var currentHashtag = "";
-
 // when the input range changes update the value 
 d3.select("#timeslide").on("input", function() {
     updateTime(+this.value);
@@ -62,6 +65,22 @@ function updateTime(value) {
     currentDate = testDates[value];
     updateMap();
 };
+
+const radioButtonInput = document.getElementById("btn-group");
+radioButtonInput.addEventListener('input', updateIncludeUS);
+
+function updateIncludeUS(e) {
+    var buttonPushed = e.target.value;
+    if (buttonPushed == "includeUS") {
+        if (includeUS) return;
+        includeUS = true;
+    }
+    else {
+        if (!includeUS) return;
+        includeUS = false;
+    }
+    updateMap();
+}
 
 const searchBoxInput = document.getElementById("hashtag-search-box");
 searchBoxInput.addEventListener('input', updateSearch);
@@ -76,11 +95,15 @@ function updateMap() {
     // Filter and get new data
     const newData = small_data.features
                          .filter(function(data) {
+                             if (includeUS) return true;
+                             return data.properties.country != "United States";
+                         })
+                         .filter(function(data) {
                             var dataHashtags = data.properties.hashtags.toLowerCase();
                             var isDataHasHashtag = dataHashtags.includes(currentHashtag);
                             var isDataCreatedAt = data.properties.created_at.includes(currentDate);
                             return isDataCreatedAt && isDataHasHashtag; 
-                         })
+                         });
 
     var tweetsByCountry = d3.rollup(newData, v => v.length, d => d.properties.country);
 
