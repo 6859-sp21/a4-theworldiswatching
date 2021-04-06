@@ -64,11 +64,12 @@ function updateTime(value) {
 };
 
 // ----------- Code related to searching hashtags
-function updateSearch() {
-    var textBoxName = document.getElementById("hashtag-search-box");
-    var searchedHashtag = textBoxName.value.toLowerCase();
+const searchBoxInput = document.getElementById("hashtag-search-box");
+searchBoxInput.addEventListener('input', updateSearch);
 
-    // how to generate tweetsByCountry for the hashtag search?
+function updateSearch(e) {
+    var searchedHashtag = e.target.value.toLowerCase();
+
     // Filter and get new data
     const newData = small_data.features
                          .filter(function(data) {
