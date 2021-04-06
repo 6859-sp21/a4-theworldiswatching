@@ -6,3 +6,7 @@
     border-radius: 4px;
     font-size: 12px;
 }
+
+.input-group {
+    width: 300px !important;
+}
