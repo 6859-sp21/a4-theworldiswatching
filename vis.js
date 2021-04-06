@@ -47,7 +47,7 @@ function updateTime(value) {
     inputValue = dates[value];
 
     // TODO: Include data filtering
-    const newTimeData = non_us_data.features
+    const newTimeData = small_data.features
                         .filter(d => d.properties.created_at.includes(testDates[value]))
 
     point_svg.selectAll('path')
