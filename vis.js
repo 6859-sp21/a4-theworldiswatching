@@ -5,22 +5,32 @@ let geoGenerator = d3.geoPath().projection(projection);
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
 let map_svg = svg.append("g");
+
+var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
+console.log(tweetsByCountry)
+var colorScale = d3.scaleThreshold()
+  .domain([10, 100, 1000, 10000])
+  .range(d3.schemeBlues[4]);
+
 map_svg.selectAll("path")
         .data(world_map_json.features)
         .enter()
         .append("path")
-        .attr( "fill", "#000" )
+        .attr( "fill", function (d) {
+            d.total = tweetsByCountry.get(d.properties.name) || 0;
+            return colorScale(d.total);
+        })
         .attr( "stroke", "#fff")
         .attr( "d", geoGenerator );
 
-let point_svg = svg.append("g");
-point_svg.selectAll('path')
-            .data(small_data.features)
-            .enter()
-            .append('path')
-            .attr( "fill", "#66e" )
-            .attr( "stroke", "#999" )
-            .attr('d', geoGenerator);
+// let point_svg = svg.append("g");
+// point_svg.selectAll('path')
+//             .data(small_data.features)
+//             .enter()
+//             .append('path')
+//             .attr( "fill", "#66e" )
+//             .attr( "stroke", "#999" )
+//             .attr('d', geoGenerator);
 // to run the server, run python3 -m http.server
 
 var inputValue = null;
@@ -50,12 +60,29 @@ function updateTime(value) {
     const newTimeData = small_data.features
                         .filter(d => d.properties.created_at.includes(testDates[value]))
 
-    point_svg.selectAll('path')
-        .data(newTimeData)
-        .join('path')
-        .attr( "fill", "#66e" )
-        .attr( "stroke", "#999" )
-        .attr('d', geoGenerator);
+    var tweetsByCountry = d3.rollup(newTimeData, v => v.length, d => d.properties.country);
+    console.log(tweetsByCountry)
+
+    // TODO: why is this not updating? :((
+    map_svg.selectAll("path")
+    .data(world_map_json.features)
+    .append("path")
+    .attr( "fill", function (d) {
+        // console.log(tweetsByCountry.get(d.properties.name));
+        d.total = tweetsByCountry.get(d.properties.name) || 0;
+        return colorScale(d.total);
+      })
+    .attr( "stroke", "#000")
+    .attr( "d", geoGenerator ); 
+
+    // point_svg.selectAll('path')
+    //     .data(newTimeData)
+    //     .join('path')
+    //     .attr( "fill", "#66e" )
+    //     .attr( "stroke", "#999" )
+    //     // .attr("r", d => tweetsByCountry.get(d.properties.country))
+    //     .attr('d', geoGenerator);
+    
 };
 
 // ----------- Code related to searching hashtags
@@ -63,9 +90,13 @@ function updateSearch() {
     var textBoxName = document.getElementById("hashtag-search-box");
     var searchedHashtag = textBoxName.value;
 
-    point_svg.selectAll('path')
-             .attr("visibility", function(data) {
-                var curHashtags = data.properties.hashtags.toLowerCase();
-                return curHashtags.includes(searchedHashtag.toLowerCase()) ? "visible" : "hidden"; 
-             });
+    // how to generate tweetsByCountry for the hashtag search?
+
+    // point_svg.selectAll('path')
+    //          .attr("visibility", function(data) {
+    //             var curHashtags = data.properties.hashtags.toLowerCase();
+    //             return curHashtags.includes(searchedHashtag.toLowerCase()) ? "visible" : "hidden"; 
+    //          });
+    
+    
 }
