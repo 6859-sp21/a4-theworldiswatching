@@ -47,19 +47,24 @@ function updateTime(value) {
     inputValue = dates[value];
 
     // TODO: Include data filtering
-    const newTimeData = small_data.features
-                        .filter(d => d.properties.created_at.includes(testDates[value]))
+    // const newTimeData = small_data.features
+    //                     .filter(d => d.properties.created_at.includes(testDates[value]))
 
     point_svg.selectAll('path')
-        .data(newTimeData)
-        .join(
-            enter => enter.append('path').style("visibility", "visible"),
-            update => update,
-            exit => exit.style("visibility", "hidden")
-            )
-        .attr( "fill", "#66e" )
-        .attr( "stroke", "#999" )
-        .attr('d', geoGenerator);
+             .attr("visibility", function(data) {
+                 return data.properties.created_at.includes(testDates[value])? "visible" : "hidden";
+             });
+
+
+        // .data(newTimeData)
+        // .join(
+        //     enter => enter.append('path').style("visibility", "visible"),
+        //     update => update,
+        //     exit => exit.style("visibility", "hidden")
+        //     )
+        // .attr( "fill", "#66e" )
+        // .attr( "stroke", "#999" )
+        // .attr('d', geoGenerator);
 };
 
 // ----------- Code related to searching hashtags
@@ -67,21 +72,9 @@ function updateSearch() {
     var textBoxName = document.getElementById("hashtag-search-box");
     var searchedHashtag = textBoxName.value;
 
-    // Filter and get new data
-    const newPointData = small_data.features
-                         .filter(function(data) {
-                            var curHashtags = data.properties.hashtags.toLowerCase();
-                            return curHashtags.includes(searchedHashtag.toLowerCase()); 
-                         });
-
     point_svg.selectAll('path')
-             .data(newPointData)
-             .join(
-                 enter => enter.append('path').style("visibility", "visible"),
-                 update => update,
-                 exit => exit.style("visibility", "hidden")
-             )
-             .attr( "fill", "#66e" )
-             .attr( "stroke", "#999" )
-             .attr('d', geoGenerator);
+             .attr("visibility", function(data) {
+                var curHashtags = data.properties.hashtags.toLowerCase();
+                return curHashtags.includes(searchedHashtag.toLowerCase()) ? "visible" : "hidden"; 
+             });
 }
