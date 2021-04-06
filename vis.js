@@ -63,21 +63,9 @@ function updateSearch() {
     var textBoxName = document.getElementById("hashtag-search-box");
     var searchedHashtag = textBoxName.value;
 
-    // Filter and get new data
-    const newPointData = small_data.features
-                         .filter(function(data) {
-                            var curHashtags = data.properties.hashtags.toLowerCase();
-                            return curHashtags.includes(searchedHashtag.toLowerCase()); 
-                         });
-
     point_svg.selectAll('path')
-             .data(newPointData)
-             .join(
-                 enter => enter.append('path'),
-                 update => update,
-                 exit => exit.remove()
-             )
-             .attr( "fill", "#66e" )
-             .attr( "stroke", "#999" )
-             .attr('d', geoGenerator);
+             .attr("visibility", function(data) {
+                var curHashtags = data.properties.hashtags.toLowerCase();
+                return curHashtags.includes(searchedHashtag.toLowerCase()) ? "visible" : "hidden"; 
+             });
 }
