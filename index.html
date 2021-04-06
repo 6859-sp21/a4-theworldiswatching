@@ -4,10 +4,11 @@
 <head>
   <title> The World is Watching </title>
   <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://d3js.org/d3-array.v2.min.js"></script>
+  <script src="d3-tip.js"></script>
   <script src="./data/world.json"></script>
   <script src="./data/combined_data_small.geojson"></script>
-  <style type="text/css">
-  </style>
+  <link rel="stylesheet" href="./vis.css">
 </head>
 
 <body>
@@ -18,8 +19,7 @@
     <span id="range">October 15, 2020</span>
   </div>
 
-  <input type="text" id="hashtag-search-box" placeholder="Type in a hashtag">
-  <button onclick="updateSearch()">Search</button>
+  <input type="text" id="hashtag-search-box" placeholder="Search a hashtag">
 
   <div id="map-placeholder"></div>
 

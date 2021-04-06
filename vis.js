@@ -4,24 +4,35 @@ projection.fitSize([width, height], small_data);
 let geoGenerator = d3.geoPath().projection(projection);
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
+
+var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .direction('e').offset([-5, -3])
+            .html(function(d) {
+                var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
+                return d.properties.name + ": " + totalTweet;
+            });
+svg.call(tip);
+
 let map_svg = svg.append("g");
+var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
+
+var colorScale = d3.scaleThreshold()
+  .domain([10, 100, 1000, 10000])
+  .range(d3.schemeBlues[4]);
+
 map_svg.selectAll("path")
         .data(world_map_json.features)
         .enter()
         .append("path")
-        .attr( "fill", "#000" )
+        .attr( "fill", function (d) {
+            d.total = tweetsByCountry.get(d.properties.name) || 0;
+            return colorScale(d.total);
+        })
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
         .attr( "stroke", "#fff")
         .attr( "d", geoGenerator );
-
-let point_svg = svg.append("g");
-point_svg.selectAll('path')
-            .data(small_data.features)
-            .enter()
-            .append('path')
-            .attr( "fill", "#66e" )
-            .attr( "stroke", "#999" )
-            .attr('d', geoGenerator);
-// to run the server, run python3 -m http.server
 
 var inputValue = null;
 var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'October 18, 2020', 'October 19, 2020',
@@ -36,6 +47,9 @@ var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
                 '10/30/20', '10/31/20', '11/1/20', '11/2/20', '11/3/20',
                 '11/4/20', '11/5/20', '11/6/20', '11/7/20', '11/8/20'];
 
+var currentDate = testDates[0];
+var currentHashtag = "";
+
 // when the input range changes update the value 
 d3.select("#timeslide").on("input", function() {
     updateTime(+this.value);
@@ -45,36 +59,49 @@ d3.select("#timeslide").on("input", function() {
 function updateTime(value) {
     document.getElementById("range").innerHTML=dates[value];
     inputValue = dates[value];
-
-    // TODO: Include data filtering
-    // const newTimeData = small_data.features
-    //                     .filter(d => d.properties.created_at.includes(testDates[value]))
-
-    point_svg.selectAll('path')
-             .attr("visibility", function(data) {
-                 return data.properties.created_at.includes(testDates[value])? "visible" : "hidden";
-             });
-
-
-        // .data(newTimeData)
-        // .join(
-        //     enter => enter.append('path').style("visibility", "visible"),
-        //     update => update,
-        //     exit => exit.style("visibility", "hidden")
-        //     )
-        // .attr( "fill", "#66e" )
-        // .attr( "stroke", "#999" )
-        // .attr('d', geoGenerator);
+    currentDate = testDates[value];
+    updateMap();
 };
 
-// ----------- Code related to searching hashtags
-function updateSearch() {
-    var textBoxName = document.getElementById("hashtag-search-box");
-    var searchedHashtag = textBoxName.value;
+const searchBoxInput = document.getElementById("hashtag-search-box");
+searchBoxInput.addEventListener('input', updateSearch);
 
-    point_svg.selectAll('path')
-             .attr("visibility", function(data) {
-                var curHashtags = data.properties.hashtags.toLowerCase();
-                return curHashtags.includes(searchedHashtag.toLowerCase()) ? "visible" : "hidden"; 
-             });
+function updateSearch(e) {
+    var searchedHashtag = e.target.value.toLowerCase();
+    currentHashtag = searchedHashtag;
+    updateMap();
+}
+
+function updateMap() {
+    // Filter and get new data
+    const newData = small_data.features
+                         .filter(function(data) {
+                            var dataHashtags = data.properties.hashtags.toLowerCase();
+                            var isDataHasHashtag = dataHashtags.includes(currentHashtag);
+                            var isDataCreatedAt = data.properties.created_at.includes(currentDate);
+                            return isDataCreatedAt && isDataHasHashtag; 
+                         })
+
+    var tweetsByCountry = d3.rollup(newData, v => v.length, d => d.properties.country);
+
+    tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .direction('e').offset([-5, -3])
+            .html(function(d) {
+                var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
+                return d.properties.name + ": " + totalTweet;
+            });
+    svg.call(tip);
+
+    map_svg.selectAll("path")
+    .data(world_map_json.features)
+    .join("path")
+    .attr( "fill", function (d) {
+        d.total = tweetsByCountry.get(d.properties.name) || 0;
+        return colorScale(d.total);
+      })
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide)
+    .attr( "stroke", "#fff")
+    .attr( "d", geoGenerator );
 }
