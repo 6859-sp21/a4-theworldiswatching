@@ -33,8 +33,8 @@ var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'Octobe
 var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
                 '10/20/20', '10/21/20', '10/22/20', '10/23/20', '10/24/20',
                 '10/25/20', '10/26/20', '10/27/20', '10/28/20', '10/29/20',
-                '10/30/20', '10/31/20', '11/01/20', '11/02/20', '11/03/20',
-                '11/04/20', '11/05/20', '11/06/20', '11/07/20', '11/08/20'];
+                '10/30/20', '10/31/20', '11/1/20', '11/2/20', '11/3/20',
+                '11/4/20', '11/5/20', '11/6/20', '11/7/20', '11/8/20'];
 
 // when the input range changes update the value 
 d3.select("#timeslide").on("input", function() {
@@ -47,7 +47,7 @@ function updateTime(value) {
     inputValue = dates[value];
 
     // TODO: Include data filtering
-    const newTimeData = non_us_data.features
+    const newTimeData = small_data.features
                         .filter(d => d.properties.created_at.includes(testDates[value]))
 
     point_svg.selectAll('path')
