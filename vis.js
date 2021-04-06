@@ -84,6 +84,15 @@ function updateMap() {
 
     var tweetsByCountry = d3.rollup(newData, v => v.length, d => d.properties.country);
 
+    tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .direction('e').offset([-5, -3])
+            .html(function(d) {
+                var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
+                return d.properties.name + ": " + totalTweet;
+            });
+    svg.call(tip);
+
     map_svg.selectAll("path")
     .data(world_map_json.features)
     .join("path")
@@ -91,6 +100,8 @@ function updateMap() {
         d.total = tweetsByCountry.get(d.properties.name) || 0;
         return colorScale(d.total);
       })
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide)
     .attr( "stroke", "#fff")
     .attr( "d", geoGenerator );
 }
