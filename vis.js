@@ -31,29 +31,31 @@ var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'Octobe
             'November 4, 2020', 'November 5, 2020', 'November 6, 2020', 'November 7, 2020', 'November 8, 2020'];
 
 var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
-                '10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
-                '10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
-                '10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
-                '10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20'];
+                '10/20/20', '10/21/20', '10/22/20', '10/23/20', '10/24/20',
+                '10/25/20', '10/26/20', '10/27/20', '10/28/20', '10/29/20',
+                '10/30/20', '10/31/20', '11/01/20', '11/02/20', '11/03/20',
+                '11/04/20', '11/05/20', '11/06/20', '11/07/20', '11/08/20'];
 
 // when the input range changes update the value 
 d3.select("#timeslide").on("input", function() {
-    update(+this.value);
+    updateTime(+this.value);
 });
 
 // update the fill of each SVG of class "____" with value
-function update(value) {
+function updateTime(value) {
     document.getElementById("range").innerHTML=dates[value];
     inputValue = dates[value];
 
     // TODO: Include data filtering
-    const newData = non_us_data.features
-        .filter(d => d.properties.created_at.includes(testDates[value]))
-    console.log(testDates[value])
+    const newTimeData = non_us_data.features
+                        .filter(d => d.properties.created_at.includes(testDates[value]))
 
-    d3.select("h2")
-        .data(newData)
-        .text(d => `${d.properties.created_at}`)
+    point_svg.selectAll('path')
+        .data(newTimeData)
+        .join('path')
+        .attr( "fill", "#66e" )
+        .attr( "stroke", "#999" )
+        .attr('d', geoGenerator);
 };
 
 // ----------- Code related to searching hashtags
