@@ -4,8 +4,17 @@ projection.fitSize([width, height], small_data);
 let geoGenerator = d3.geoPath().projection(projection);
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
-let map_svg = svg.append("g");
 
+var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .direction('e').offset([-5, -3])
+            .html(function(d) {
+                var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
+                return d.properties.name + ": " + totalTweet;
+            });
+svg.call(tip);
+
+let map_svg = svg.append("g");
 var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
 
 var colorScale = d3.scaleThreshold()
@@ -20,6 +29,8 @@ map_svg.selectAll("path")
             d.total = tweetsByCountry.get(d.properties.name) || 0;
             return colorScale(d.total);
         })
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
         .attr( "stroke", "#fff")
         .attr( "d", geoGenerator );
 
