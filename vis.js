@@ -36,6 +36,9 @@ var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
                 '10/30/20', '10/31/20', '11/1/20', '11/2/20', '11/3/20',
                 '11/4/20', '11/5/20', '11/6/20', '11/7/20', '11/8/20'];
 
+var currentDate = testDates[0];
+var currentHashtag = "";
+
 // when the input range changes update the value 
 d3.select("#timeslide").on("input", function() {
     updateTime(+this.value);
@@ -45,12 +48,30 @@ d3.select("#timeslide").on("input", function() {
 function updateTime(value) {
     document.getElementById("range").innerHTML=dates[value];
     inputValue = dates[value];
+    currentDate = testDates[value];
+    updateMap();
+};
 
-    // TODO: Include data filtering
-    const newTimeData = small_data.features
-                        .filter(d => d.properties.created_at.includes(testDates[value]))
+const searchBoxInput = document.getElementById("hashtag-search-box");
+searchBoxInput.addEventListener('input', updateSearch);
 
-    var tweetsByCountry = d3.rollup(newTimeData, v => v.length, d => d.properties.country);
+function updateSearch(e) {
+    var searchedHashtag = e.target.value.toLowerCase();
+    currentHashtag = searchedHashtag;
+    updateMap();
+}
+
+function updateMap() {
+    // Filter and get new data
+    const newData = small_data.features
+                         .filter(function(data) {
+                            var dataHashtags = data.properties.hashtags.toLowerCase();
+                            var isDataHasHashtag = dataHashtags.includes(currentHashtag);
+                            var isDataCreatedAt = data.properties.created_at.includes(currentDate);
+                            return isDataCreatedAt && isDataHasHashtag; 
+                         })
+
+    var tweetsByCountry = d3.rollup(newData, v => v.length, d => d.properties.country);
 
     map_svg.selectAll("path")
     .data(world_map_json.features)
@@ -60,31 +81,5 @@ function updateTime(value) {
         return colorScale(d.total);
       })
     .attr( "stroke", "#fff")
-    .attr( "d", geoGenerator ); 
-};
-
-// ----------- Code related to searching hashtags
-const searchBoxInput = document.getElementById("hashtag-search-box");
-searchBoxInput.addEventListener('input', updateSearch);
-
-function updateSearch(e) {
-    var searchedHashtag = e.target.value.toLowerCase();
-
-    // Filter and get new data
-    const newData = small_data.features
-                         .filter(function(data) {
-                            var curHashtags = data.properties.hashtags.toLowerCase();
-                            return curHashtags.includes(searchedHashtag); 
-                         });
-    var tweetsByCountry = d3.rollup(newData, v => v.length, d => d.properties.country);
-
-    map_svg.selectAll("path")
-        .data(world_map_json.features)
-        .join("path")
-        .attr( "fill", function (d) {
-            d.total = tweetsByCountry.get(d.properties.name) || 0;
-            return colorScale(d.total);
-        })
-        .attr( "stroke", "#fff")
-        .attr( "d", geoGenerator );
+    .attr( "d", geoGenerator );
 }
