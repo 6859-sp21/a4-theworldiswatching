@@ -7,7 +7,7 @@ let svg = d3.select("#map-placeholder").append('svg')
 let map_svg = svg.append("g");
 
 var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
-console.log(tweetsByCountry)
+
 var colorScale = d3.scaleThreshold()
   .domain([10, 100, 1000, 10000])
   .range(d3.schemeBlues[4]);
@@ -22,16 +22,6 @@ map_svg.selectAll("path")
         })
         .attr( "stroke", "#fff")
         .attr( "d", geoGenerator );
-
-// let point_svg = svg.append("g");
-// point_svg.selectAll('path')
-//             .data(small_data.features)
-//             .enter()
-//             .append('path')
-//             .attr( "fill", "#66e" )
-//             .attr( "stroke", "#999" )
-//             .attr('d', geoGenerator);
-// to run the server, run python3 -m http.server
 
 var inputValue = null;
 var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'October 18, 2020', 'October 19, 2020',
@@ -61,42 +51,39 @@ function updateTime(value) {
                         .filter(d => d.properties.created_at.includes(testDates[value]))
 
     var tweetsByCountry = d3.rollup(newTimeData, v => v.length, d => d.properties.country);
-    console.log(tweetsByCountry)
 
-    // TODO: why is this not updating? :((
     map_svg.selectAll("path")
     .data(world_map_json.features)
-    .append("path")
+    .join("path")
     .attr( "fill", function (d) {
-        // console.log(tweetsByCountry.get(d.properties.name));
         d.total = tweetsByCountry.get(d.properties.name) || 0;
         return colorScale(d.total);
       })
-    .attr( "stroke", "#000")
+    .attr( "stroke", "#fff")
     .attr( "d", geoGenerator ); 
-
-    // point_svg.selectAll('path')
-    //     .data(newTimeData)
-    //     .join('path')
-    //     .attr( "fill", "#66e" )
-    //     .attr( "stroke", "#999" )
-    //     // .attr("r", d => tweetsByCountry.get(d.properties.country))
-    //     .attr('d', geoGenerator);
-    
 };
 
 // ----------- Code related to searching hashtags
 function updateSearch() {
     var textBoxName = document.getElementById("hashtag-search-box");
-    var searchedHashtag = textBoxName.value;
+    var searchedHashtag = textBoxName.value.toLowerCase();
 
     // how to generate tweetsByCountry for the hashtag search?
+    // Filter and get new data
+    const newData = small_data.features
+                         .filter(function(data) {
+                            var curHashtags = data.properties.hashtags.toLowerCase();
+                            return curHashtags.includes(searchedHashtag); 
+                         });
+    var tweetsByCountry = d3.rollup(newData, v => v.length, d => d.properties.country);
 
-    // point_svg.selectAll('path')
-    //          .attr("visibility", function(data) {
-    //             var curHashtags = data.properties.hashtags.toLowerCase();
-    //             return curHashtags.includes(searchedHashtag.toLowerCase()) ? "visible" : "hidden"; 
-    //          });
-    
-    
+    map_svg.selectAll("path")
+        .data(world_map_json.features)
+        .join("path")
+        .attr( "fill", function (d) {
+            d.total = tweetsByCountry.get(d.properties.name) || 0;
+            return colorScale(d.total);
+        })
+        .attr( "stroke", "#fff")
+        .attr( "d", geoGenerator );
 }
