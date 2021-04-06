@@ -1,6 +1,6 @@
 let width = 1000, height = 800; // TODO: change these to fit the screen
 let projection = d3.geoEquirectangular();
-projection.fitSize([width, height], non_us_data);
+projection.fitSize([width, height], small_data);
 let geoGenerator = d3.geoPath().projection(projection);
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
@@ -15,7 +15,7 @@ map_svg.selectAll("path")
 
 let point_svg = svg.append("g");
 point_svg.selectAll('path')
-            .data(non_us_data.features)
+            .data(small_data.features)
             .enter()
             .append('path')
             .attr( "fill", "#66e" )
@@ -57,14 +57,12 @@ function update(value) {
 };
 
 // ----------- Code related to searching hashtags
-const searchBoxInput = document.getElementById("hashtag-search-box");
-searchBoxInput.addEventListener('input', updateSearch);
-
-function updateSearch(e) {
-    var searchedHashtag = e.target.value;
+function updateSearch() {
+    var textBoxName = document.getElementById("hashtag-search-box");
+    var searchedHashtag = textBoxName.value;
 
     // Filter and get new data
-    const newPointData = non_us_data.features
+    const newPointData = small_data.features
                          .filter(function(data) {
                             var curHashtags = data.properties.hashtags.toLowerCase();
                             return curHashtags.includes(searchedHashtag.toLowerCase()); 
