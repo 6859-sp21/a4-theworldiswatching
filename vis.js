@@ -52,7 +52,11 @@ function updateTime(value) {
 
     point_svg.selectAll('path')
         .data(newTimeData)
-        .join('path')
+        .join(
+            enter => enter.append('path').style("visibility", "visible"),
+            update => update,
+            exit => exit.style("visibility", "hidden")
+            )
         .attr( "fill", "#66e" )
         .attr( "stroke", "#999" )
         .attr('d', geoGenerator);
@@ -73,9 +77,9 @@ function updateSearch() {
     point_svg.selectAll('path')
              .data(newPointData)
              .join(
-                 enter => enter.append('path'),
+                 enter => enter.append('path').style("visibility", "visible"),
                  update => update,
-                 exit => exit.remove()
+                 exit => exit.style("visibility", "hidden")
              )
              .attr( "fill", "#66e" )
              .attr( "stroke", "#999" )
