@@ -1,4 +1,4 @@
-let width = 1000, height = 800; // TODO: change these to fit the screen
+let width = 800, height = 500; // TODO: change these to fit the screen
 let projection = d3.geoEquirectangular();
 projection.fitSize([width, height], small_data);
 let geoGenerator = d3.geoPath().projection(projection);
