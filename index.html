@@ -13,27 +13,36 @@
 </head>
 
 <body>
-  <h1>The World is Watching</h1>
+  <h2 class="text-center text-light bg-dark m-2">The World is Watching: US Election 2020</h1>
+  <div class="container">
+    <div class="row main mt-2 mb-2">
+    <div class='col-8 mt-2 mb-2 p-4'>
+      <div id="map-placeholder"></div>
+    </div>
 
-  <div id="sliderContainer">
-    <input id="timeslide" type="range" min="0" max="24" value="0" step="1"/><br>
-    <span id="range">October 15, 2020</span>
+    <div class='col-4 main bg-light'>
+      <div id="sliderContainer" class="m-2 p-2">
+        <input id="timeslide" type="range" min="0" max="24" value="19" step="1"/><br>
+        <span id="range">November 3, 2020 - Election Day</span>
+      </div>
+    
+      <div class="input-group" class="m-2 p-2">
+        <span class="input-group-text" id="basic-addon1">#</span>
+        <input type="text" class="form-control" id="hashtag-search-box" placeholder="Search a hashtag">
+      </div>
+    
+      <div id="btn-group" class="m-2 p-2" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="excludeUS" checked>
+        <label class="btn btn-outline-primary" for="btnradio1">Exclude US</label>
+      
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="includeUS">
+        <label class="btn btn-outline-primary" for="btnradio2">Include US</label>
+      </div>
+    </div>
+    </div>
   </div>
 
-  <div class="input-group">
-    <span class="input-group-text" id="basic-addon1">#</span>
-    <input type="text" class="form-control" id="hashtag-search-box" placeholder="Search a hashtag">
-  </div>
-
-  <div id="btn-group" role="group" aria-label="Basic radio toggle button group">
-    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="excludeUS" checked>
-    <label class="btn btn-outline-primary" for="btnradio1">Exclude US</label>
   
-    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="includeUS">
-    <label class="btn btn-outline-primary" for="btnradio2">Include US</label>
-  </div>
-
-  <div id="map-placeholder"></div>
 
   <script src="./vis.js"></script>
 
