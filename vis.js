@@ -91,6 +91,11 @@ function updateSearch(e) {
     updateMap();
 }
 
+function updateSearchWOListener(newText) {
+    currentHashtag = newText;
+    updateMap();
+}
+
 function updateMap() {
     // Filter and get new data
     const newData = small_data.features
@@ -153,7 +158,7 @@ var allHashtagsCount = d3.rollups(allHashtags, group => group.length, w => w)
                         .filter(([text, value]) => value > 1)
                         .map(([text, value]) => ({text, value}));
 
-// adapted from: https://observablehq.com/@contervis/clickable-word-cloud
+// below code is adapted from: https://observablehq.com/@contervis/clickable-word-cloud
 const word_width = 800; // TODO: change this
 const word_height = 500;
 const fontFamily = "Verdana, Arial, Helvetica, sans-serif";
@@ -198,15 +203,17 @@ const cloud = d3.layout.cloud()
             d3.select(this)
                 .classed("word-hovered", false)
                 .interrupt(`mouseover-${text}`)
-                .attr("font-size", size);
+                .attr("font-size", size)
+                .attr("font-weight", "normal");
         }
         
         function handleClick(d, i) {
-            var e = d3.select(this);
-            displaySelection.text(`selection="${e.text()}"`);
-            e.classed("word-selected", !e.classed("word-selected"));
+            console.log(text);
+            var textInput = document.getElementById('hashtag-search-box');
+            textInput.value = text;
+            updateSearchWOListener(text);
         }
 
-});
+    });
 cloud.start();
 
