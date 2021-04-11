@@ -5,10 +5,12 @@ let geoGenerator = d3.geoPath().projection(projection);
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
 
+const WORLDWIDE = "Worldwide";
 // ---  Default values
 var currentDate = '11/3/20';
 var currentHashtag = "";
 var includeUS = false;
+var currentCountry = WORLDWIDE;
 
 var tip = d3.tip()
             .attr('class', 'd3-tip')
@@ -64,6 +66,7 @@ function updateTime(value) {
     inputValue = dates[value];
     currentDate = testDates[value];
     updateMap();
+    updateWordCloud(currentCountry);
 };
 
 const radioButtonInput = document.getElementById("btn-group");
@@ -80,6 +83,7 @@ function updateIncludeUS(e) {
         includeUS = false;
     }
     updateMap();
+    updateWordCloud(currentCountry);
 }
 
 const searchBoxInput = document.getElementById("hashtag-search-box");
@@ -135,62 +139,96 @@ function updateMap() {
 }
 
 // ------------------------ code for wordcloud -------------------------------
-// get the words
-var allHashtagsNotFlattened = small_data.features
-                            .map(function(d) {
-                                const hashtagList = d.properties.hashtags.substring(1, d.properties.hashtags.length-1).split(",");
-                                const hashtags = hashtagList.map(function(h) {
-                                                                    let trimmedHash = "";
-                                                                    for (let i=0;i<h.length;i++) {
-                                                                        if (h[i] === "'" || h[i] === " ") continue;
-                                                                        trimmedHash = trimmedHash + h[i];
-                                                                    }
-                                                                    return trimmedHash.toLowerCase();
-                                                                });
-                                
-                                return hashtags;
-                            });
-var allHashtags = [].concat.apply([], allHashtagsNotFlattened);
-// convert all same hashtags to count
-var allHashtagsCount = d3.rollups(allHashtags, group => group.length, w => w)
-                        .sort(([, a], [, b]) => d3.descending(a, b))
-                        .slice(0, 20)
-                        .filter(([text, value]) => value > 1)
-                        .map(([text, value]) => ({text, value}));
-
-// below code is adapted from: https://observablehq.com/@contervis/clickable-word-cloud
 const word_width = 800; // TODO: change this
 const word_height = 500;
 const fontFamily = "Verdana, Arial, Helvetica, sans-serif";
 let word_svg = d3.select("#wordcloud-placeholder").append('svg')
-                 .style("width", word_width)
-                 .style("height", word_height)
-                 .attr("font-familiy", fontFamily)
-                 .attr("text-anchor", "middle");
+                .style("width", word_width)
+                .style("height", word_height)
+                .attr("font-familiy", fontFamily)
+                .attr("text-anchor", "middle")
+                .append("g")
+                .attr("transform", "translate(" + (word_width / 2) + "," + (word_height / 2) + ")");
 
-let s = d3.scaleSqrt()
-        .domain([1, d3.max(allHashtagsCount.map(d => d.value))])
-        .range([6, 82]);
+function updateWordCloudTitle(country) {
+    var textInput = document.getElementById('wordcloud-title');
+    textInput.innerHTML = "Top 15 Hashtags: " + country + "\n";
+}
 
-const cloud = d3.layout.cloud()
-        .size([width, height])
-        .words(allHashtagsCount.map(d => Object.create(d)))
-        .padding(1)
+function updateWordCloud(country) {
+    updateWordCloudTitle(country);
+    // Pre-process: get all the hashtags
+    // Filter by country
+    var rowsByCountry;
+    if (country === WORLDWIDE) { 
+        rowsByCountry = small_data.features
+                            .filter(function(data) {
+                                if (includeUS) return true;
+                                return data.properties.country !== "United States";
+                            });
+    }
+    else { // other country
+         rowsByCountry = small_data.features
+                                .filter(function(data) {
+                                    return data.properties.country === country;
+                                });
+    }
+    // Filter by date
+    rowsByCountry = rowsByCountry.filter(function(data) {
+                        var isDataCreatedAt = data.properties.created_at.includes(currentDate);
+                        return isDataCreatedAt; 
+                    });
+
+    var allHashtagsNotFlattened = rowsByCountry
+                                  .map(function(d) {
+                                    const hashtagList = d.properties.hashtags.substring(1, d.properties.hashtags.length-1).split(",");
+                                    const hashtags = hashtagList.map(function(h) {
+                                                                        let trimmedHash = "";
+                                                                        for (let i=0;i<h.length;i++) {
+                                                                            if (h[i] === "'" || h[i] === " ") continue;
+                                                                            trimmedHash = trimmedHash + h[i];
+                                                                        }
+                                                                        return trimmedHash.toLowerCase();
+                                                                    });
+                                    
+                                    return hashtags;
+                                });
+    var allHashtags = [].concat.apply([], allHashtagsNotFlattened);
+    // convert all same hashtags to count
+    var allHashtagsCount = d3.rollups(allHashtags, group => group.length, w => w)
+                            .sort(([, a], [, b]) => d3.descending(a, b))
+                            .slice(0, 15)
+                            .map(([text, value]) => ({text, value}));
+
+    // Generate wordcloud
+    // below code is adapted from: https://observablehq.com/@contervis/clickable-word-cloud
+    // and http://plnkr.co/edit/B20h2bNRkyTtfs4SxE0v?p=preview&preview
+    let s = d3.scaleSqrt()
+            .domain([1, d3.max(allHashtagsCount.map(d => d.value))])
+            .range([6, 82]);
+    
+    d3.layout.cloud()
+            .size([word_width, word_height])
+            .words(allHashtagsCount)
+            .padding(1)
+            .rotate(0)
+            .font(fontFamily)
+            .fontSize(d => s(d.value))
+            .on("end", draw)
+            .start();
+
+    function draw(words) {
+        const newVis = word_svg.selectAll("text").data(words);
+        newVis.join("text")
+        .attr("font-size", function(d) { return s(d.value); })
+        .attr("transform", function(d) { return `translate(${d.x},${d.y}) rotate(${d.rotate})`; })
         .text(function(d) { return d.text; })
-        .rotate(() => 0)
-        .font(fontFamily)
-        .fontSize(d => s(d.value))
-        .on("word", ({size, x, y, rotate, text}) => {
-        word_svg.append("text")
-            .attr("font-size", size)
-            .attr("transform", `translate(${x},${y}) rotate(${rotate})`)
-            .text(text)
-            .classed("click-only-text", true)
-            .classed("word-default", true)
-            .on("mouseover", handleMouseOver)
-            .on("mouseout", handleMouseOut)
-            .on("click", handleClick);
-  
+        .classed("click-only-text", true)
+        .classed("word-default", true)
+        // .on("mouseover", handleMouseOver)
+        // .on("mouseout", handleMouseOut)
+        // .on("click", handleClick);
+
         function handleMouseOver(d, i) {
             d3.select(this)
                 .classed("word-hovered", true)
@@ -208,12 +246,12 @@ const cloud = d3.layout.cloud()
         }
         
         function handleClick(d, i) {
-            console.log(text);
             var textInput = document.getElementById('hashtag-search-box');
             textInput.value = text;
             updateSearchWOListener(text);
         }
+    }
+}
 
-    });
-cloud.start();
 
+updateWordCloud(WORLDWIDE);
