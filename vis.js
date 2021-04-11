@@ -24,7 +24,7 @@ var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.prope
 
 var colorScale = d3.scaleThreshold()
   .domain([1, 100, 500, 1000, 1500, 2000, 2500])
-  .range(d3.schemeBlues[7]);
+  .range(d3.schemePurples[7]);
 
 map_svg.selectAll("path")
         .data(world_map_json.features)
