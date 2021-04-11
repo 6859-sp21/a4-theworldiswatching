@@ -128,3 +128,84 @@ function updateMap() {
     .attr( "stroke", "#fff")
     .attr( "d", geoGenerator );
 }
+
+// ------------------------ code for wordcloud -------------------------------
+// get the words
+var allHashtagsNotFlattened = small_data.features
+                            .map(function(d) {
+                                const hashtagList = d.properties.hashtags.substring(1, d.properties.hashtags.length-1).split(",");
+                                const hashtags = hashtagList.map(function(h) {
+                                                                    let trimmedHash = "";
+                                                                    for (let i=0;i<h.length;i++) {
+                                                                        if (h[i] === "'" || h[i] === " ") continue;
+                                                                        trimmedHash = trimmedHash + h[i];
+                                                                    }
+                                                                    return trimmedHash.toLowerCase();
+                                                                });
+                                
+                                return hashtags;
+                            });
+var allHashtags = [].concat.apply([], allHashtagsNotFlattened);
+// convert all same hashtags to count
+var allHashtagsCount = d3.rollups(allHashtags, group => group.length, w => w)
+                        .sort(([, a], [, b]) => d3.descending(a, b))
+                        .slice(0, 20)
+                        .filter(([text, value]) => value > 1)
+                        .map(([text, value]) => ({text, value}));
+
+// adapted from: https://observablehq.com/@contervis/clickable-word-cloud
+const word_width = 800; // TODO: change this
+const word_height = 500;
+const fontFamily = "Verdana, Arial, Helvetica, sans-serif";
+let word_svg = d3.select("#wordcloud-placeholder").append('svg')
+                 .style("width", word_width)
+                 .style("height", word_height)
+                 .attr("font-familiy", fontFamily)
+                 .attr("text-anchor", "middle");
+
+let s = d3.scaleSqrt()
+        .domain([1, d3.max(allHashtagsCount.map(d => d.value))])
+        .range([6, 82]);
+
+const cloud = d3.layout.cloud()
+        .size([width, height])
+        .words(allHashtagsCount.map(d => Object.create(d)))
+        .padding(1)
+        .rotate(() => 0)
+        .font(fontFamily)
+        .fontSize(d => s(d.value))
+        .on("word", ({size, x, y, rotate, text}) => {
+        word_svg.append("text")
+            .attr("font-size", size)
+            .attr("transform", `translate(${x},${y}) rotate(${rotate})`)
+            .text(text)
+            .classed("click-only-text", true)
+            .classed("word-default", true)
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut)
+            .on("click", handleClick);
+  
+        function handleMouseOver(d, i) {
+            d3.select(this)
+                .classed("word-hovered", true)
+                .transition(`mouseover-${text}`).duration(300).ease(d3.easeLinear)
+                .attr("font-size", size + 2)
+                .attr("font-weight", "bold");
+        }
+        
+        function handleMouseOut(d, i) {
+            d3.select(this)
+                .classed("word-hovered", false)
+                .interrupt(`mouseover-${text}`)
+                .attr("font-size", size);
+        }
+        
+        function handleClick(d, i) {
+            var e = d3.select(this);
+            displaySelection.text(`selection="${e.text()}"`);
+            e.classed("word-selected", !e.classed("word-selected"));
+        }
+
+});
+cloud.start();
+
