@@ -10,3 +10,22 @@
 .input-group {
     width: 300px !important;
 }
+
+.twitter-bg {
+    background-color: #1DA1F2;
+  }
+
+  .text-twitter {
+    color: #1DA1F2;
+  }
+
+  .active {
+    fill: orange;
+  }
+
+  /* .btn-outline-twitter {
+    color: #1DA1F2;
+    border-color: #1DA1F2;
+  } 
+  todo: changing automatic button styles requires a bit more work
+  */
