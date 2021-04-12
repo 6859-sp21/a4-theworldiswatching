@@ -1,14 +1,16 @@
-let width = 800, height = 500; // TODO: change these to fit the screen
+let width = 800, height = 500, centered; // TODO: change these to fit the screen
 let projection = d3.geoEquirectangular();
 projection.fitSize([width, height], small_data);
 let geoGenerator = d3.geoPath().projection(projection);
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
 
+const WORLDWIDE = "Worldwide";
 // ---  Default values
 var currentDate = '11/3/20';
 var currentHashtag = "";
 var includeUS = false;
+var currentCountry = WORLDWIDE;
 
 var tip = d3.tip()
             .attr('class', 'd3-tip')
@@ -23,8 +25,8 @@ let map_svg = svg.append("g");
 var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
 
 var colorScale = d3.scaleThreshold()
-  .domain([10, 100, 1000, 10000])
-  .range(d3.schemeBlues[4]);
+  .domain([1, 100, 500, 1000, 1500, 2000, 2500])
+  .range(d3.schemePurples[7]);
 
 map_svg.selectAll("path")
         .data(world_map_json.features)
@@ -37,15 +39,16 @@ map_svg.selectAll("path")
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
         .attr( "stroke", "#fff")
-        .attr( "d", geoGenerator );
+        .attr( "d", geoGenerator )
+        .on("click", clicked);
 updateMap();
 
 var inputValue = null;
 var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'October 18, 2020', 'October 19, 2020',
-            'October 20, 2020', 'October 21, 2020', 'October 22, 2020', 'October 23, 2020', 'October 24, 2020', 
+            'October 20, 2020', 'October 21, 2020', 'October 22, 2020 - Debate Day', 'October 23, 2020 - Debate Day + 1', 'October 24, 2020', 
             'October 25, 2020', 'October 26, 2020', 'October 27, 2020', 'October 28, 2020', 'October 29, 2020',
             'October 30, 2020', 'October 31, 2020', 'November 1, 2020', 'November 2, 2020', 'November 3, 2020 - Election Day', 
-            'November 4, 2020 - Election Day + 1', 'November 5, 2020', 'November 6, 2020', 'November 7, 2020', 'November 8, 2020'];
+            'November 4, 2020 - Election Day + 1', 'November 5, 2020', 'November 6, 2020', 'November 7, 2020 - Biden declared winner', 'November 8, 2020'];
 
 var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
                 '10/20/20', '10/21/20', '10/22/20', '10/23/20', '10/24/20',
@@ -64,6 +67,7 @@ function updateTime(value) {
     inputValue = dates[value];
     currentDate = testDates[value];
     updateMap();
+    updateWordCloud(currentCountry);
 };
 
 const radioButtonInput = document.getElementById("btn-group");
@@ -80,6 +84,7 @@ function updateIncludeUS(e) {
         includeUS = false;
     }
     updateMap();
+    updateWordCloud(currentCountry);
 }
 
 const searchBoxInput = document.getElementById("hashtag-search-box");
@@ -88,6 +93,11 @@ searchBoxInput.addEventListener('input', updateSearch);
 function updateSearch(e) {
     var searchedHashtag = e.target.value.toLowerCase();
     currentHashtag = searchedHashtag;
+    updateMap();
+}
+
+function updateSearchWOListener(newText) {
+    currentHashtag = newText;
     updateMap();
 }
 
@@ -126,5 +136,129 @@ function updateMap() {
     .on('mouseover', tip.show)
     .on('mouseout', tip.hide)
     .attr( "stroke", "#fff")
-    .attr( "d", geoGenerator );
+    .attr( "d", geoGenerator )
+    .on("click", clicked);
 }
+
+function clicked(d) {
+    var x, y, k;
+  
+    if (d && centered !== d) {
+      var centroid = geoGenerator.centroid(d);
+      x = centroid[0];
+      y = centroid[1];
+      k = 4;
+      centered = d;
+    } else {
+      x = width / 2;
+      y = height / 2;
+      k = 1;
+      centered = null;
+    }
+  
+    map_svg.selectAll("path")
+        .classed("active", centered && function(d) { return d === centered; });
+  
+        map_svg.transition()
+        .duration(750)
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+        .style("stroke-width", 1.5 / k + "px");
+  }
+
+// ------------------------ code for wordcloud -------------------------------
+var textInput = document.getElementById('hashtag-search-box');
+const word_width = 800; // TODO: change this
+const word_height = 500;
+const fontFamily = "Verdana, Arial, Helvetica, sans-serif";
+let word_svg = d3.select("#wordcloud-placeholder").append('svg')
+                .style("width", word_width)
+                .style("height", word_height)
+                .attr("font-familiy", fontFamily)
+                .attr("text-anchor", "middle")
+                .append("g")
+                .attr("transform", "translate(" + (word_width / 2) + "," + (word_height / 2) + ")");
+
+function updateWordCloudTitle(country) {
+    var textInput = document.getElementById('wordcloud-title');
+    textInput.innerHTML = "Top 15 Hashtags: " + country + "\n";
+}
+
+function updateWordCloud(country) {
+    updateWordCloudTitle(country);
+    // Pre-process: get all the hashtags
+    // Filter by country
+    var rowsByCountry;
+    if (country === WORLDWIDE) { 
+        rowsByCountry = small_data.features
+                            .filter(function(data) {
+                                if (includeUS) return true;
+                                return data.properties.country !== "United States";
+                            });
+    }
+    else { // other country
+         rowsByCountry = small_data.features
+                                .filter(function(data) {
+                                    return data.properties.country === country;
+                                });
+    }
+    // Filter by date
+    rowsByCountry = rowsByCountry.filter(function(data) {
+                        var isDataCreatedAt = data.properties.created_at.includes(currentDate);
+                        return isDataCreatedAt; 
+                    });
+
+    var allHashtagsNotFlattened = rowsByCountry
+                                  .map(function(d) {
+                                    const hashtagList = d.properties.hashtags.substring(1, d.properties.hashtags.length-1).split(",");
+                                    const hashtags = hashtagList.map(function(h) {
+                                                                        let trimmedHash = "";
+                                                                        for (let i=0;i<h.length;i++) {
+                                                                            if (h[i] === "'" || h[i] === " ") continue;
+                                                                            trimmedHash = trimmedHash + h[i];
+                                                                        }
+                                                                        return trimmedHash.toLowerCase();
+                                                                    });
+                                    
+                                    return hashtags;
+                                });
+    var allHashtags = [].concat.apply([], allHashtagsNotFlattened);
+    // convert all same hashtags to count
+    var allHashtagsCount = d3.rollups(allHashtags, group => group.length, w => w)
+                            .sort(([, a], [, b]) => d3.descending(a, b))
+                            .slice(0, 15)
+                            .map(([text, value]) => ({text, value}));
+
+    // Generate wordcloud
+    // below code is adapted from: https://observablehq.com/@contervis/clickable-word-cloud
+    // and http://plnkr.co/edit/B20h2bNRkyTtfs4SxE0v?p=preview&preview
+    let s = d3.scaleSqrt()
+            .domain([1, d3.max(allHashtagsCount.map(d => d.value))])
+            .range([6, 82]);
+    
+    d3.layout.cloud()
+            .size([word_width, word_height])
+            .words(allHashtagsCount)
+            .padding(1)
+            .rotate(0)
+            .font(fontFamily)
+            .fontSize(d => s(d.value))
+            .on("end", draw)
+            .start();
+
+    function draw(words) {
+        const newVis = word_svg.selectAll("text").data(words);
+        newVis.join("text")
+        .attr("font-size", function(d) { return s(d.value); })
+        .attr("transform", function(d) { return `translate(${d.x},${d.y}) rotate(${d.rotate})`; })
+        .text(function(d) { return d.text; })
+        .on("click", handleClick);
+        
+        function handleClick(d, i) {
+            textInput.value = d.text;
+            updateSearchWOListener(d.text);
+        }
+    }
+}
+
+
+updateWordCloud(WORLDWIDE);
