@@ -167,7 +167,7 @@ function clicked(d) {
 
 // ------------------------ code for wordcloud -------------------------------
 var textInput = document.getElementById('hashtag-search-box');
-const word_width = 800; // TODO: change this
+const word_width = 400; // TODO: change this
 const word_height = 500;
 const fontFamily = "Verdana, Arial, Helvetica, sans-serif";
 let word_svg = d3.select("#wordcloud-placeholder").append('svg')
@@ -233,7 +233,7 @@ function updateWordCloud(country) {
     // and http://plnkr.co/edit/B20h2bNRkyTtfs4SxE0v?p=preview&preview
     let s = d3.scaleSqrt()
             .domain([1, d3.max(allHashtagsCount.map(d => d.value))])
-            .range([6, 82]);
+            .range([6, 32]);
     
     d3.layout.cloud()
             .size([word_width, word_height])
@@ -251,12 +251,13 @@ function updateWordCloud(country) {
         .attr("font-size", function(d) { return s(d.value); })
         .attr("transform", function(d) { return `translate(${d.x},${d.y}) rotate(${d.rotate})`; })
         .text(function(d) { return d.text; })
-        .on("click", handleClick);
-        
-        function handleClick(d, i) {
+        .on("click", (d, i) => {
             textInput.value = d.text;
             updateSearchWOListener(d.text);
-        }
+        })
+        //.on("hover", (d, i) => {
+
+        //});
     }
 }
 
