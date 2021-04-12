@@ -166,6 +166,7 @@ function clicked(d) {
   }
 
 // ------------------------ code for wordcloud -------------------------------
+var textInput = document.getElementById('hashtag-search-box');
 const word_width = 800; // TODO: change this
 const word_height = 500;
 const fontFamily = "Verdana, Arial, Helvetica, sans-serif";
@@ -250,32 +251,11 @@ function updateWordCloud(country) {
         .attr("font-size", function(d) { return s(d.value); })
         .attr("transform", function(d) { return `translate(${d.x},${d.y}) rotate(${d.rotate})`; })
         .text(function(d) { return d.text; })
-        .classed("click-only-text", true)
-        .classed("word-default", true)
-        // .on("mouseover", handleMouseOver)
-        // .on("mouseout", handleMouseOut)
-        // .on("click", handleClick);
-
-        function handleMouseOver(d, i) {
-            d3.select(this)
-                .classed("word-hovered", true)
-                .transition(`mouseover-${text}`).duration(300).ease(d3.easeLinear)
-                .attr("font-size", size + 2)
-                .attr("font-weight", "bold");
-        }
-        
-        function handleMouseOut(d, i) {
-            d3.select(this)
-                .classed("word-hovered", false)
-                .interrupt(`mouseover-${text}`)
-                .attr("font-size", size)
-                .attr("font-weight", "normal");
-        }
+        .on("click", handleClick);
         
         function handleClick(d, i) {
-            var textInput = document.getElementById('hashtag-search-box');
-            textInput.value = text;
-            updateSearchWOListener(text);
+            textInput.value = d.text;
+            updateSearchWOListener(d.text);
         }
     }
 }
