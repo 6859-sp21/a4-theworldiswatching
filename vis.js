@@ -1,4 +1,4 @@
-let width = 800, height = 500; // TODO: change these to fit the screen
+let width = 800, height = 500, centered; // TODO: change these to fit the screen
 let projection = d3.geoEquirectangular();
 projection.fitSize([width, height], small_data);
 let geoGenerator = d3.geoPath().projection(projection);
@@ -39,7 +39,8 @@ map_svg.selectAll("path")
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
         .attr( "stroke", "#fff")
-        .attr( "d", geoGenerator );
+        .attr( "d", geoGenerator )
+        .on("click", clicked);
 updateMap();
 
 var inputValue = null;
@@ -135,8 +136,34 @@ function updateMap() {
     .on('mouseover', tip.show)
     .on('mouseout', tip.hide)
     .attr( "stroke", "#fff")
-    .attr( "d", geoGenerator );
+    .attr( "d", geoGenerator )
+    .on("click", clicked);
 }
+
+function clicked(d) {
+    var x, y, k;
+  
+    if (d && centered !== d) {
+      var centroid = geoGenerator.centroid(d);
+      x = centroid[0];
+      y = centroid[1];
+      k = 4;
+      centered = d;
+    } else {
+      x = width / 2;
+      y = height / 2;
+      k = 1;
+      centered = null;
+    }
+  
+    map_svg.selectAll("path")
+        .classed("active", centered && function(d) { return d === centered; });
+  
+        map_svg.transition()
+        .duration(750)
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+        .style("stroke-width", 1.5 / k + "px");
+  }
 
 // ------------------------ code for wordcloud -------------------------------
 const word_width = 800; // TODO: change this
