@@ -63,6 +63,7 @@
     
     <div class='map'>
       <div id="map-placeholder"></div>
+      <div class="map-direction"> Click on any country to zoom in, and click on the same country to zoom out.</div>
     </div>
 
     <div class='sidebar'>
@@ -110,8 +111,7 @@
 
   <script>
     $(function () {
-      $('#help').popover({ html: true})
-                            .popover('show').click();
+      $('#help').popover({ html: true});
     })
   </script>
 
@@ -155,8 +155,17 @@
   .map {
     /*border: 5px solid blue;*/
     display: flex;
+    flex-flow: column;
     padding: 20px;
     width: 100%;
+  }
+
+  .map-direction {
+    align-self: center;
+    color: #aeaaaa;
+    font-size: 14px;
+    margin-top: 8px;
+    text-align: center;
   }
 
   .btn-group {
@@ -252,7 +261,7 @@
   }
 
   .footer {
-    color: #CDCDCD;
+    color: #aeaaaa;
     font-size: 12px;
     text-align: center;
     width: 100%;
