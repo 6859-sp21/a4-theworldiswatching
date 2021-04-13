@@ -4,6 +4,7 @@
 <head>
   <title> The World is Watching </title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://d3js.org/d3-array.v2.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -14,63 +15,58 @@
 </head>
 
 <body>
-  <h2 class="text-center text-twitter m-2">The World is Watching: US Election 2020</h2>
-  
+  <h2 class="title">The World is Watching: US Election 2020</h2>
+
+  <div class="description">
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  </div>
+
   <!-- SLIDER CODE -->
   <!-- adapted from https://codepen.io/trevanhetzel/pen/rOVrGK -->
-
-  <div class="range">
-    <input type="range" min="1" max="25" steps="1" value="20">
+  <div class="slider">
+    <div class="range">
+      <input type="range" min="1" max="25" steps="1" value="20">
+    </div>
+    
+    <ul class="range-labels">
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li>Final Presidential Debate</li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li class="active selected">Election Day</li>
+      <li><br></li>
+      <li><br></li>
+      <li><br></li>
+      <li>Biden Declared Winner</li>
+      <li><br></li>
+    </ul>
   </div>
-  
-  <ul class="range-labels">
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li>Final Presidential Debate</li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li class="active selected">Election Day</li>
-    <li><br></li>
-    <li><br></li>
-    <li><br></li>
-    <li>Biden Declared Winner</li>
-    <li><br></li>
-  </ul>
 
-    <!-- END SLIDER CODE -->
+  <!-- END SLIDER CODE -->
 
-  <div class="container">
-    <div class="row main mt-2 mb-2">
-    <div class='col-8 mt-2 mb-2 p-4'>
+  <div class="map-and-sidebar">
+    
+    <div class='map'>
       <div id="map-placeholder"></div>
     </div>
 
-    <div class='col-4 main bg-light'>
-      <div id="sliderContainer" class="m-2 p-2">
-        <input id="timeslide" type="range" min="0" max="24" value="19" step="1"/><br>
-        <span id="range">November 3, 2020 - Election Day</span>
-      </div>
-    
-      <div class="input-group" class="m-2 p-2">
-        <span class="input-group-text" id="basic-addon1">#</span>
-        <input type="text" class="form-control" id="hashtag-search-box" placeholder="Search a hashtag">
-      </div>
-    
-      <div id="btn-group" class="m-2 p-2" role="group" aria-label="Basic radio toggle button group">
+    <div class='sidebar'>
+      <div class="btn-group" id="btn-group" role="group" aria-label="Basic radio toggle button group">
         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="excludeUS" checked>
         <label class="btn btn-outline-primary" for="btnradio1">Exclude US</label>
       
@@ -78,31 +74,115 @@
         <label class="btn btn-outline-primary" for="btnradio2">Include US</label>
       </div>
 
+      <div class="input-group" class="m-2 p-2">
+        <span class="input-group-text" id="basic-addon1">#</span>
+        <input type="text " class="form-control" id="hashtag-search-box" placeholder="Search a hashtag">
+      </div>
+
       <div class="wordcloud-group">
-        <div id="wordcloud-title"> Top 15 Hashtags: Worldwide</div>
+        <h4 id="wordcloud-title"> Top 15 Hashtags: Worldwide </h4>
         <div id="wordcloud-placeholder"></div>
       </div>
     </div>
     </div>
   </div>
 
-  <script src="./vis.js"></script>
+  <div class="footer">
+    <!-- TODO: add link to github? -->
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+  <script src="./vis.js"></script>
 </body>
 
 <style>
+  body {
+    background-color: black;
+    overflow-x: hidden;
+  }
+
+  .title {
+    color: #1DA1F2;
+    font-size: 40px;
+    margin: 60 20 36 20;
+    padding-top: 40px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .description {
+    color: white;
+    margin: 20 40 36 40;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .map-and-sidebar {
+    /*border: 5px solid green;*/
+    display: flex;
+    width: 100%;
+  }
+
+  .map {
+    /*border: 5px solid blue;*/
+    display: flex;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .btn-group {
+    align-self: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+  }
+
+  .btn {
+    color: #1DA1F2;
+  }
+
+  .sidebar {
+    /*border: 5px solid red;*/
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    margin: 20px;
+    width: 100%;
+  }
+
+  .wordcloud-group {
+    align-self: center;
+    margin: 12px;
+    padding: 2px 10px 5px 10px;
+  }
+
+  #wordcloud-title {
+    align-self: center;
+    border-bottom: 3px solid #1DA1F2;
+    margin-top: 0px;
+    padding-bottom: 6px;
+    text-align: center;
+    width: 100%;
+  }
+
+  #wordcloud-placeholder {
+    align-self: center;
+    margin-top: 0px;
+    width: 100%;
+  }
+
   .d3-tip {
     line-height: 1;
     padding: 6px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
+    background: white;
+    color: black;
     border-radius: 4px;
     font-size: 12px;
   }
 
   .input-group {
-      width: 300px !important;
+    align-self: center;
+    width: 80%;
   }
 
   .twitter-bg {
@@ -120,10 +200,6 @@
       stroke-linecap: round;
   }
 
-  body {
-    background-color: black;
-  }
-
   /* .btn-outline-twitter {
     color: #1DA1F2;
     border-color: #1DA1F2;
@@ -131,20 +207,30 @@
   todo: changing automatic button styles requires a bit more work
   */
 
+  /* Word cloud */
+  #wordcloud-title {
+    color: white;
+  }
+
   /* Slider css */
+  .slider {
+    margin: 40px;
+    width: 100%;
+  }
+
   .range {
 	 position: relative;
-	 width: 1203px;
+	 width: 1200px;
 	 height: 5px;
-}
- .range input {
+  }
+  .range input {
 	 width: 100%;
 	 position: absolute;
 	 top: 2px;
 	 height: 0;
 	 -webkit-appearance: none;
-}
- .range input::-webkit-slider-thumb {
+  }
+  .range input::-webkit-slider-thumb {
 	 -webkit-appearance: none;
 	 width: 18px;
 	 height: 18px;
@@ -153,7 +239,7 @@
 	 background: #37adbf;
 	 cursor: pointer;
 	 border: 0 !important;
-}
+  }
  .range input::-moz-range-thumb {
 	 width: 18px;
 	 height: 18px;

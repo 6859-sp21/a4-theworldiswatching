@@ -1,4 +1,4 @@
-let width = 800, height = 500, centered; // TODO: change these to fit the screen
+let width = 800, height = 400, centered; // TODO: change these to fit the screen
 let projection = d3.geoEquirectangular();
 projection.fitSize([width, height], small_data);
 let geoGenerator = d3.geoPath().projection(projection);
@@ -213,13 +213,14 @@ function clicked(d) {
 
 // ------------------------ code for wordcloud -------------------------------
 var textInput = document.getElementById('hashtag-search-box');
-const word_width = 400; // TODO: change this
-const word_height = 500;
+const word_width = 300; // TODO: change this
+const word_height = 250;
 const fontFamily = "Verdana, Arial, Helvetica, sans-serif";
 let word_svg = d3.select("#wordcloud-placeholder").append('svg')
                 .style("width", word_width)
                 .style("height", word_height)
-                .attr("font-familiy", fontFamily)
+                .style('fill', 'white')
+                .attr("font-family", fontFamily)
                 .attr("text-anchor", "middle")
                 .append("g")
                 .attr("transform", "translate(" + (word_width / 2) + "," + (word_height / 2) + ")");
@@ -227,11 +228,11 @@ let word_svg = d3.select("#wordcloud-placeholder").append('svg')
 function updateWordCloudTitle(country, numOfHashtagShowed) {
     var textInput = document.getElementById('wordcloud-title');
     if (numOfHashtagShowed === 0) {
-        textInput.innerHTML = "No hashtags available for " + country + ".<br/>" + "Please choose other country or date.<br/>";
-        if (country === "United States") textInput.innerHTML += "Also, please don't forget to click 'Include US' button."
+        textInput.innerText = "No hashtags available for " + country + ".\n" + "Please choose other country or date.\n";
+        if (country === "United States") textInput.innerText += "Also, please don't forget to click 'Include US' button."
     }
     else {
-        textInput.innerHTML = "Top " + numOfHashtagShowed + " Hashtags: " + country + ".";
+        textInput.innerText = "Top " + numOfHashtagShowed + " Hashtags: " + country;
     }
 }
 
@@ -292,7 +293,7 @@ function updateWordCloud(country) {
     // and http://plnkr.co/edit/B20h2bNRkyTtfs4SxE0v?p=preview&preview
     let s = d3.scaleSqrt()
             .domain([1, d3.max(allHashtagsCount.map(d => d.value))])
-            .range([6, 32]);
+            .range([12, 32]);
     
     d3.layout.cloud()
             .size([word_width, word_height])
