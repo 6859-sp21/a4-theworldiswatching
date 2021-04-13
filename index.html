@@ -77,6 +77,9 @@
       <div class="input-group" class="m-2 p-2">
         <span class="input-group-text" id="basic-addon1">#</span>
         <input type="text " class="form-control" id="hashtag-search-box" placeholder="Search a hashtag">
+        <div class="input-group-append">
+          <input class="btn-x btn-outline-secondary" type="button" id="button-searchbar" value="x"></input>
+        </div>
       </div>
 
       <div class="wordcloud-group">
@@ -182,7 +185,17 @@
 
   .input-group {
     align-self: center;
+    border-right: hidden;
     width: 80%;
+  }
+
+  .btn-x {
+    background-color: white;
+    border: hidden;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    color: black;
+    height: 100%;
   }
 
   .twitter-bg {
