@@ -1,12 +1,20 @@
-# The World is Watching
+# The World is Watching: US Election 2020
 
 6.859 Assignment 4 completed by Charvi Gopal, Eesam Hourani, and Stacia Johanna.
 
+## Dataset
 
+The dataset used in this visualization is US Election 2020 tweets from October 15, 2020 to November 8, 2020. Because of size restriction, only 50,000 tweets data is used.
+
+The dataset is acquired from https://www.kaggle.com/manchunhui/us-election-2020-tweets
+
+### Data Cleanup
+
+TODO
 
 ### Intended Goals
 
-* What does the world think of the U.S.?
+* Answer the question: "what does the world think of the U.S.?"
 * Perhaps include quote from peer review re: international focus
 
 
@@ -15,24 +23,28 @@
 
 ### Encodings
 
-* Color
-* Word cloud uses size
-* 
+* Map
 
-### Interactions
+* Color
+
+* Word cloud uses size
+
+  
+
+### Interactions & Animation Techniques
 
 * Slider
+
 * Tooltip
+
 * Search bar
-* 
 
-### Animation Techniques
-
-
+  
 
 ### Exploring Alternatives
 
-* 
+* Bubble map vs. chloropleth
+* Word cloud vs. leaderboard
 
 
 
@@ -40,11 +52,19 @@
 
 * Overall work breakdown
 
+| Name           | Tasks | Skills Practiced |
+| -------------- | ----- | ---------------- |
+| Charvi Gopal   |       |                  |
+| Eesam Hourani  |       |                  |
+| Stacia Johanna |       |                  |
+
+* Total time spent:
+
 * What took the most time?
 
 
 
-## References
+## Resources
 
 Tutorials and other learning materials we used:
 
@@ -53,6 +73,7 @@ Tutorials and other learning materials we used:
 - Slider code adapted from https://codepen.io/trevanhetzel/pen/rOVrGK
 
 For choropleths:
+
 - http://bl.ocks.org/stevenae/8362841?fbclid=IwAR23VlKEqpkOzd-ZQ52qFUeppmNpuK9d3MxgLh6lYwLoJzds-magPiicM78
 - https://d3-geomap.github.io/map/choropleth/world/
 - https://bl.ocks.org/mbostock/2206590?fbclid=IwAR2kSSQF5ikNSoB7SinuiMgm271ahH1DsEAqog9TZvt9nJprf6yZovXuX6Q 

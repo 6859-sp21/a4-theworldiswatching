@@ -19,10 +19,18 @@ var currentCountry = WORLDWIDE;
 
 var tip = d3.tip()
             .attr('class', 'd3-tip')
-            .direction('e').offset([-5, -3])
+            .direction('n').offset(function() {
+                if (currentCountry == WORLDWIDE) {
+                    return [this.getBBox().height/4, this.getBBox().width/4]
+                } else {
+                    console.log(this.getBBox().height, " height")
+                    console.log(this.getBBox().width, " width")
+                    return [this.getBBox().height, this.getBBox().width]
+                }
+              }) 
             .html(function(d) {
                 var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
-                return d.properties.name + ": " + totalTweet;
+                return d.properties.name + ": " + totalTweet + " tweets";
             });
 svg.call(tip);
 
@@ -143,6 +151,14 @@ function updateSearchWOListener(newText) {
     updateMap();
 }
 
+const buttonSearchBar = document.getElementById("button-searchbar");
+buttonSearchBar.addEventListener('click', clearSearch);
+
+function clearSearch() {
+    textInput.value = "";
+    updateSearchWOListener("");
+}
+
 function updateMap() {
     // Filter and get new data
     const newData = small_data.features
@@ -161,10 +177,19 @@ function updateMap() {
 
     tip = d3.tip()
             .attr('class', 'd3-tip')
-            .direction('e').offset([-5, -3])
+            .direction('n').offset(function() {
+                if (currentCountry == WORLDWIDE) {
+                    return [this.getBBox().height/4, this.getBBox().width/4]
+                } else {
+                    console.log(this.getBBox().height, " height")
+                    console.log(this.getBBox().width, " width")
+                    return [this.getBBox().height, this.getBBox().width]
+                }
+              })
             .html(function(d) {
                 var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
-                return d.properties.name + ": " + totalTweet;
+                if (totalTweet === 0) return d.properties.name + ": " + "No tweets"
+                else return d.properties.name + ": " + totalTweet + " tweets";
             });
     svg.call(tip);
 
