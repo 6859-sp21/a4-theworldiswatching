@@ -151,6 +151,14 @@ function updateSearchWOListener(newText) {
     updateMap();
 }
 
+const buttonSearchBar = document.getElementById("button-searchbar");
+buttonSearchBar.addEventListener('click', clearSearch);
+
+function clearSearch() {
+    textInput.value = "";
+    updateSearchWOListener("");
+}
+
 function updateMap() {
     // Filter and get new data
     const newData = small_data.features
