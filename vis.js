@@ -19,7 +19,15 @@ var currentCountry = WORLDWIDE;
 
 var tip = d3.tip()
             .attr('class', 'd3-tip')
-            .direction('e').offset([-5, -3])
+            .direction('n').offset(function() {
+                if (currentCountry == WORLDWIDE) {
+                    return [this.getBBox().height/4, this.getBBox().width/4]
+                } else {
+                    console.log(this.getBBox().height, " height")
+                    console.log(this.getBBox().width, " width")
+                    return [this.getBBox().height, this.getBBox().width]
+                }
+              }) 
             .html(function(d) {
                 var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
                 return d.properties.name + ": " + totalTweet;
@@ -161,7 +169,15 @@ function updateMap() {
 
     tip = d3.tip()
             .attr('class', 'd3-tip')
-            .direction('e').offset([-5, -3])
+            .direction('n').offset(function() {
+                if (currentCountry == WORLDWIDE) {
+                    return [this.getBBox().height/4, this.getBBox().width/4]
+                } else {
+                    console.log(this.getBBox().height, " height")
+                    console.log(this.getBBox().width, " width")
+                    return [this.getBBox().height, this.getBBox().width]
+                }
+              })
             .html(function(d) {
                 var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
                 return d.properties.name + ": " + totalTweet;
