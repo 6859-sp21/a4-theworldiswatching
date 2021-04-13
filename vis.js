@@ -251,13 +251,11 @@ function updateWordCloud(country) {
         .attr("font-size", function(d) { return s(d.value); })
         .attr("transform", function(d) { return `translate(${d.x},${d.y}) rotate(${d.rotate})`; })
         .text(function(d) { return d.text; })
+        .style('cursor', 'pointer')
         .on("click", (d, i) => {
             textInput.value = d.text;
             updateSearchWOListener(d.text);
-        })
-        //.on("hover", (d, i) => {
-
-        //});
+        });
     }
 }
 
