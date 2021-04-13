@@ -29,6 +29,10 @@ TODO
 
 * Word cloud uses size
 
+* Tooltip details on tweet count
+
+* TODO: anything else?
+
   
 
 ### Interactions & Animation Techniques
@@ -39,28 +43,40 @@ TODO
 
 * Search bar
 
+* Click on country
+
+* Zoom animation
+
+* TODO: anything else?
+
   
 
 ### Exploring Alternatives
 
 * Bubble map vs. chloropleth
 * Word cloud vs. leaderboard
+* TODO: anything else?
 
 
 
 ## Development Process
 
 * Overall work breakdown
-
-| Name           | Tasks | Skills Practiced |
-| -------------- | ----- | ---------------- |
-| Charvi Gopal   |       |                  |
-| Eesam Hourani  |       |                  |
-| Stacia Johanna |       |                  |
-
 * Total time spent:
 
 * What took the most time?
+
+### Charvi Gopal
+
+* Tasks & skills practiced
+
+### Eesam Hourani
+
+* Tasks & skills practiced
+
+### Stacia Johanna
+
+* Tasks & skills practiced
 
 
 
