@@ -90,7 +90,8 @@
     </div>
   </div>
 
-  <input class="help-button" type="image" src="./help.png" 
+  <input class="help-button" type="image" src="./help.png"
+        id="help" 
         data-bs-container="body" 
         data-bs-toggle="popover" 
         data-bs-placement="right" 
@@ -102,7 +103,8 @@
 
   <script>
     $(function () {
-      $('[data-bs-toggle="popover"]').popover({html:true})
+      $('#help').popover({ html: true})
+                            .popover('show').click();
     })
   </script>
 
