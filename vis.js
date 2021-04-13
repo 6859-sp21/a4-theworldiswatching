@@ -181,26 +181,30 @@ function clicked(d) {
     var x, y, k;
   
     if (d && centered !== d) {
-      var centroid = geoGenerator.centroid(d);
-      x = centroid[0];
-      y = centroid[1];
-      k = 4;
-      centered = d;
+        currentCountry = d.properties.name;
+        var centroid = geoGenerator.centroid(d);
+        x = centroid[0];
+        y = centroid[1];
+        k = 4;
+        centered = d;
     } else {
-      x = width / 2;
-      y = height / 2;
-      k = 1;
-      centered = null;
+        currentCountry = WORLDWIDE;
+        x = width / 2;
+        y = height / 2;
+        k = 1;
+        centered = null;
     }
   
     map_svg.selectAll("path")
         .classed("active", centered && function(d) { return d === centered; });
   
-        map_svg.transition()
+    map_svg.transition()
         .duration(750)
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
         .style("stroke-width", 1.5 / k + "px");
-  }
+    
+    updateWordCloud(currentCountry);
+}
 
 // ------------------------ code for wordcloud -------------------------------
 var textInput = document.getElementById('hashtag-search-box');
@@ -215,13 +219,18 @@ let word_svg = d3.select("#wordcloud-placeholder").append('svg')
                 .append("g")
                 .attr("transform", "translate(" + (word_width / 2) + "," + (word_height / 2) + ")");
 
-function updateWordCloudTitle(country) {
+function updateWordCloudTitle(country, numOfHashtagShowed) {
     var textInput = document.getElementById('wordcloud-title');
-    textInput.innerHTML = "Top 15 Hashtags: " + country + "\n";
+    if (numOfHashtagShowed === 0) {
+        textInput.innerHTML = "No hashtags available for " + country + ".<br/>" + "Please choose other country or date.<br/>";
+        if (country === "United States") textInput.innerHTML += "Also, please don't forget to click 'Include US' button."
+    }
+    else {
+        textInput.innerHTML = "Top " + numOfHashtagShowed + " Hashtags: " + country + ".";
+    }
 }
 
 function updateWordCloud(country) {
-    updateWordCloudTitle(country);
     // Pre-process: get all the hashtags
     // Filter by country
     var rowsByCountry;
@@ -236,6 +245,10 @@ function updateWordCloud(country) {
          rowsByCountry = small_data.features
                                 .filter(function(data) {
                                     return data.properties.country === country;
+                                })
+                                .filter(function(data) {
+                                    if (includeUS) return true;
+                                    return data.properties.country !== "United States";
                                 });
     }
     // Filter by date
@@ -259,12 +272,16 @@ function updateWordCloud(country) {
                                     return hashtags;
                                 });
     var allHashtags = [].concat.apply([], allHashtagsNotFlattened);
+    const numOfHashtagShowed = Math.min(allHashtags.length, 15);
     // convert all same hashtags to count
     var allHashtagsCount = d3.rollups(allHashtags, group => group.length, w => w)
                             .sort(([, a], [, b]) => d3.descending(a, b))
-                            .slice(0, 15)
+                            .slice(0, numOfHashtagShowed)
                             .map(([text, value]) => ({text, value}));
-
+    
+    // Change title
+    updateWordCloudTitle(country, numOfHashtagShowed);
+    
     // Generate wordcloud
     // below code is adapted from: https://observablehq.com/@contervis/clickable-word-cloud
     // and http://plnkr.co/edit/B20h2bNRkyTtfs4SxE0v?p=preview&preview
@@ -288,13 +305,11 @@ function updateWordCloud(country) {
         .attr("font-size", function(d) { return s(d.value); })
         .attr("transform", function(d) { return `translate(${d.x},${d.y}) rotate(${d.rotate})`; })
         .text(function(d) { return d.text; })
+        .style('cursor', 'pointer')
         .on("click", (d, i) => {
             textInput.value = d.text;
             updateSearchWOListener(d.text);
-        })
-        //.on("hover", (d, i) => {
-
-        //});
+        });
     }
 }
 
