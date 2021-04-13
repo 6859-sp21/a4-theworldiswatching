@@ -2,26 +2,30 @@
 
 6.859 Assignment 4 completed by Charvi Gopal, Eesam Hourani, and Stacia Johanna.
 
-## Dataset
-
-The dataset used in this visualization is US Election 2020 tweets from October 15, 2020 to November 8, 2020. Because of size restriction, only 50,000 tweets data is used.
-
-The dataset is acquired from https://www.kaggle.com/manchunhui/us-election-2020-tweets
-
-### Data Cleanup
-
-TODO
-
-### Intended Goals
+## Intended Goals - Eesam
 
 * Answer the question: "what does the world think of the U.S.?"
 * Perhaps include quote from peer review re: international focus
 
 
 
+## Dataset - Eesam
+
+The dataset used in this visualization is US Election 2020 tweets from October 15, 2020 to November 8, 2020. Because of size restriction, only 50,000 tweets data is used.
+
+The dataset is acquired from https://www.kaggle.com/manchunhui/us-election-2020-tweets.
+
+* Time zone
+
+### Data Cleanup
+
+TODO - Stacia
+
+
+
 ## Design Decisions
 
-### Encodings
+### Encodings - Eesam
 
 * Map
 
@@ -35,7 +39,7 @@ TODO
 
   
 
-### Interactions & Animation Techniques
+### Interactions & Animation Techniques - Charvi
 
 * Slider
 
@@ -51,36 +55,29 @@ TODO
 
   
 
-### Exploring Alternatives
+### Exploring Alternatives - Stacia
 
-* Bubble map vs. chloropleth
-* Word cloud vs. leaderboard
+* Bubble map vs. chloropleth --> peer review feedback
+* Word cloud vs. leaderboard --> size encoding gives a sense of magnitude as opposed to leaderboard
 * TODO: anything else?
 
 
 
 ## Development Process
 
-* Overall work breakdown
 * Total time spent:
 
-* What took the most time?
+* What took the most time? Data cleanup, putting the map together (TopoJSON of world map) - Eesam
 
-### Charvi Gopal
-
-* Tasks & skills practiced
-
-### Eesam Hourani
-
-* Tasks & skills practiced
-
-### Stacia Johanna
-
-* Tasks & skills practiced
+| Name           | Project Contribution |
+| -------------- | -------------------- |
+| Charvi Gopal   |                      |
+| Eesam Hourani  |                      |
+| Stacia Johanna |                      |
 
 
 
-## Resources
+## Resources (TODO: Reformat - Eesam)
 
 Tutorials and other learning materials we used:
 
@@ -93,3 +90,5 @@ For choropleths:
 - http://bl.ocks.org/stevenae/8362841?fbclid=IwAR23VlKEqpkOzd-ZQ52qFUeppmNpuK9d3MxgLh6lYwLoJzds-magPiicM78
 - https://d3-geomap.github.io/map/choropleth/world/
 - https://bl.ocks.org/mbostock/2206590?fbclid=IwAR2kSSQF5ikNSoB7SinuiMgm271ahH1DsEAqog9TZvt9nJprf6yZovXuX6Q 
+
+Inspirations:
