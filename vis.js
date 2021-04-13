@@ -43,6 +43,43 @@ map_svg.selectAll("path")
         .on("click", clicked);
 updateMap();
 
+// ------------------------- SLIDER CODE -------------------------
+// adapted from https://codepen.io/trevanhetzel/pen/rOVrGK
+
+var sheet = document.createElement('style'),  
+  $rangeInput = $('.range input'),
+  prefs = ['webkit-slider-runnable-track', 'moz-range-track', 'ms-track'];
+
+document.body.appendChild(sheet);
+
+var getTrackStyle = function (el) {  
+  var curVal = el.value,
+      val = (curVal - 1) * 4.16666666667,
+      style = '';
+  
+  // Set active label
+  $('.range-labels li').removeClass('active selected');
+  
+  var curLabel = $('.range-labels').find('li:nth-child(' + curVal + ')');
+  
+  curLabel.addClass('active selected');
+  return style;
+}
+
+$rangeInput.on('input', function () {
+  sheet.textContent = getTrackStyle(this);
+});
+
+// Change input value on label click
+$('.range-labels li').on('click', function () {
+  var index = $(this).index();
+  
+  $rangeInput.val(index + 1).trigger('input');
+  
+});
+
+// ------------------------- END SLIDER CODE -------------------------
+
 var inputValue = null;
 var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'October 18, 2020', 'October 19, 2020',
             'October 20, 2020', 'October 21, 2020', 'October 22, 2020 - Debate Day', 'October 23, 2020 - Debate Day + 1', 'October 24, 2020', 
