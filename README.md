@@ -29,6 +29,10 @@ TODO
 
 * Word cloud uses size
 
+* Tooltip details on tweet count
+
+* TODO: anything else?
+
   
 
 ### Interactions & Animation Techniques
@@ -39,12 +43,19 @@ TODO
 
 * Search bar
 
+* Click on country
+
+* Zoom animation
+
+* TODO: anything else?
+
   
 
 ### Exploring Alternatives
 
 * Bubble map vs. chloropleth
 * Word cloud vs. leaderboard
+* TODO: anything else?
 
 
 
