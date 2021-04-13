@@ -90,6 +90,22 @@
     </div>
   </div>
 
+  <input class="help-button" type="image" src="./help.png" 
+        data-bs-container="body" 
+        data-bs-toggle="popover" 
+        data-bs-placement="right" 
+        title="How to explore the data"
+        data-bs-content="On the map, click on any country to zoom in, 
+        and click on the same country to zoom out. <br>
+        Type in a hashtag (without the '#') on the search bar on the right side. <br>
+        TODO"/>
+
+  <script>
+    $(function () {
+      $('[data-bs-toggle="popover"]').popover({html:true})
+    })
+  </script>
+
   <div class="footer">
     <!-- TODO: add link to github? -->
   </div>
@@ -101,6 +117,7 @@
   body {
     background-color: black;
     overflow-x: hidden;
+    position: relative;
   }
 
   .title {
@@ -211,6 +228,18 @@
       stroke-width: 1.5px;
       stroke-linejoin: round;
       stroke-linecap: round;
+  }
+
+  .help-button {
+    bottom: 10px;
+    left: 10px;
+    height: 30px;
+    position: fixed;
+    width: 30px;
+  }
+
+  .help-button:focus {
+    outline:0;
   }
 
   /* .btn-outline-twitter {
