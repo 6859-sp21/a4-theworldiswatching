@@ -91,6 +91,13 @@ $('.range-labels li').on('click', function () {
   $rangeInput.val(index + 1).trigger('input');
 });
 
+var inputValue = null;
+var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'October 18, 2020', 'October 19, 2020',
+            'October 20, 2020', 'October 21, 2020', 'October 22, 2020 - Debate Day', 'October 23, 2020 - Debate Day + 1', 'October 24, 2020', 
+            'October 25, 2020', 'October 26, 2020', 'October 27, 2020', 'October 28, 2020', 'October 29, 2020',
+            'October 30, 2020', 'October 31, 2020', 'November 1, 2020', 'November 2, 2020', 'November 3, 2020 - Election Day', 
+            'November 4, 2020 - Election Day + 1', 'November 5, 2020', 'November 6, 2020', 'November 7, 2020 - Biden declared winner', 'November 8, 2020'];
+
 var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
                 '10/20/20', '10/21/20', '10/22/20', '10/23/20', '10/24/20',
                 '10/25/20', '10/26/20', '10/27/20', '10/28/20', '10/29/20',
@@ -99,11 +106,14 @@ var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
 
 // when the input range changes update the value 
 d3.select(".range input").on("input", function() {
+    console.log("got here");
     updateTime(+this.value);
 });
 
 // update with value
 function updateTime(value) {
+    // document.getElementById("range").innerHTML=dates[value - 1];
+    inputValue = dates[value - 1];
     currentDate = testDates[value - 1];
     updateMap();
     updateWordCloud(currentCountry);
