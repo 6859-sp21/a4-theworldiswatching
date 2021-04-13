@@ -41,6 +41,7 @@ map_svg.selectAll("path")
             d.total = tweetsByCountry.get(d.properties.name) || 0;
             return colorScale(d.total);
         })
+        .style('cursor', 'pointer')
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
         .attr("stroke", "black")
