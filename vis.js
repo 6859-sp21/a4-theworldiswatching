@@ -30,7 +30,7 @@ var tip = d3.tip()
               }) 
             .html(function(d) {
                 var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
-                return d.properties.name + ": " + totalTweet;
+                return d.properties.name + ": " + totalTweet + " tweets";
             });
 svg.call(tip);
 
@@ -188,7 +188,8 @@ function updateMap() {
               })
             .html(function(d) {
                 var totalTweet = tweetsByCountry.get(d.properties.name) || 0;
-                return d.properties.name + ": " + totalTweet;
+                if (totalTweet === 0) return d.properties.name + ": " + "No tweets"
+                else return d.properties.name + ": " + totalTweet + " tweets";
             });
     svg.call(tip);
 
