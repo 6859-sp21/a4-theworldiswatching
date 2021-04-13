@@ -5,6 +5,11 @@ let geoGenerator = d3.geoPath().projection(projection);
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
 
+svg.append("rect")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("fill", "black");
+
 const WORLDWIDE = "Worldwide";
 // ---  Default values
 var currentDate = '11/3/20';
@@ -26,7 +31,7 @@ var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.prope
 
 var colorScale = d3.scaleThreshold()
   .domain([1, 100, 500, 1000, 1500, 2000, 2500])
-  .range(d3.schemePurples[7]);
+  .range(d3.schemeBlues[7]);
 
 map_svg.selectAll("path")
         .data(world_map_json.features)
@@ -38,8 +43,8 @@ map_svg.selectAll("path")
         })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
-        .attr( "stroke", "#fff")
-        .attr( "d", geoGenerator )
+        .attr("stroke", "black")
+        .attr("d", geoGenerator )
         .on("click", clicked);
 updateMap();
 
@@ -135,8 +140,9 @@ function updateMap() {
       })
     .on('mouseover', tip.show)
     .on('mouseout', tip.hide)
-    .attr( "stroke", "#fff")
-    .attr( "d", geoGenerator )
+    .attr("stroke", "black")
+    .attr("border-color", "black")
+    .attr("d", geoGenerator )
     .on("click", clicked);
 }
 
