@@ -62,16 +62,21 @@ TODO
 ## Development Process
 
 * Overall work breakdown
-
-| Name           | Tasks | Skills Practiced |
-| -------------- | ----- | ---------------- |
-| Charvi Gopal   |       |                  |
-| Eesam Hourani  |       |                  |
-| Stacia Johanna |       |                  |
-
 * Total time spent:
 
 * What took the most time?
+
+### Charvi Gopal
+
+* Tasks & skills practiced
+
+### Eesam Hourani
+
+* Tasks & skills practiced
+
+### Stacia Johanna
+
+* Tasks & skills practiced
 
 
 
