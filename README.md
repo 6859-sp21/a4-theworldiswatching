@@ -40,19 +40,25 @@ For our visualization, we used a variety of visual encodings to effectively comm
 
 ### Interactions & Animation Techniques - Charvi
 
-* Slider
+We added the following interactions and animation techniques:
 
-* Tooltip
+#### Slider
+interaction hidden/not hidden -- guidance?
 
-* Search bar
+#### Tooltip
+interaction hidden/not hidden -- guidance?
 
-* Click on country
+#### Search bar
+interaction hidden/not hidden -- guidance?
+
+#### Click on country
+interaction hidden/not hidden -- guidance?
 
 * Zoom animation
 
-* Click on word cloud
+#### Click on word cloud
+interaction hidden/not hidden -- guidance?
 
-* TODO: anything else?
 
   
 
