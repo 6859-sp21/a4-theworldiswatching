@@ -19,7 +19,7 @@
   <h2 class="title">The World is Watching: US Election 2020</h2>
 
   <div class="description">
-    How were people around the world talking about the 2020 US Election? When and where were people tweeting the most? What were they tweeting about?
+    How were people around the world talking about the 2020 US Election? When and where were people tweeting the most? What were they tweeting about? This map contains 50,000 randomly-sampled tweets, which represents about 10% of the total number of election-related tweets from October 15 - November 8, 2020.
   </div>
 
   <!-- SLIDER CODE -->
@@ -64,6 +64,7 @@
 
     <div class='map'>
       <div id="map-placeholder"></div>
+      <div class="map-direction"> Click on any country to zoom in, and click on the same country to zoom out.</div>
     </div>
 
     <div class='sidebar'>
@@ -91,19 +92,27 @@
     </div>
   </div>
 
-  <input class="help-button" type="image" src="./help.png" 
+  <input class="help-button" type="image" src="./help.png"
+        id="help" 
         data-bs-container="body" 
         data-bs-toggle="popover" 
         data-bs-placement="right" 
         title="How to explore the data"
-        data-bs-content="On the map, click on any country to zoom in, 
+        data-bs-content="
+        <ul>
+        <li> <b> Map exploration </b>: On the map, click on any country to zoom in, 
         and click on the same country to zoom out. <br>
-        Type in a hashtag (without the '#') on the search bar on the right side. <br>
-        TODO"/>
+        Notice how the wordcloud also change based on the country you clicked!
+        <li> <b> Hashtag search </b>: Type in a hashtag (without the '#') on the search bar on the right side.
+        <li> <b> Timeline </b>: Drag the blue button to explore how the number of election-related tweets changed 
+        in the days before the 2020 U.S. Election.<br>
+        <li> <b> Hashtag Wordcloud </b>: Click on any of the words to directly search the hashtag
+        </ul>
+        "/>
 
   <script>
     $(function () {
-      $('[data-bs-toggle="popover"]').popover({html:true})
+      $('#help').popover({ html: true});
     })
   </script>
 
@@ -147,10 +156,12 @@
   .map {
     /*border: 5px solid blue;*/
     display: flex;
+    flex-flow: column;
     padding: 20px;
     width: 100%;
   }
 
+<<<<<<< HEAD
   .legend {
     display: table;
     margin: 0 auto;
@@ -158,6 +169,14 @@
     font-size: 12px;
     height: 35px;
     width: 250px;
+=======
+  .map-direction {
+    align-self: center;
+    color: #aeaaaa;
+    font-size: 14px;
+    margin-top: 8px;
+    text-align: center;
+>>>>>>> fc74678f75e963004b017e8278bf0a60c59179e5
   }
 
   .btn-group {
@@ -253,7 +272,7 @@
   }
 
   .footer {
-    color: #CDCDCD;
+    color: #aeaaaa;
     font-size: 12px;
     text-align: center;
     width: 100%;
@@ -374,6 +393,37 @@
  .range-labels .active.selected::before {
 	 display: none;
 }
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+</style>
 </style>
 
 </html>

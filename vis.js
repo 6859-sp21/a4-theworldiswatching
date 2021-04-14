@@ -91,8 +91,6 @@ $('.range-labels li').on('click', function () {
   $rangeInput.val(index + 1).trigger('input');
 });
 
-// ------------------------- END SLIDER CODE -------------------------
-
 var inputValue = null;
 var dates = ['October 15, 2020', 'October 16, 2020', 'October 17, 2020', 'October 18, 2020', 'October 19, 2020',
             'October 20, 2020', 'October 21, 2020', 'October 22, 2020 - Debate Day', 'October 23, 2020 - Debate Day + 1', 'October 24, 2020', 
@@ -107,18 +105,21 @@ var testDates = ['10/15/20', '10/16/20', '10/17/20', '10/18/20', '10/19/20',
                 '11/4/20', '11/5/20', '11/6/20', '11/7/20', '11/8/20'];
 
 // when the input range changes update the value 
-d3.select("#timeslide").on("input", function() {
+d3.select(".range input").on("input", function() {
+    console.log("got here");
     updateTime(+this.value);
 });
 
-// update the fill of each SVG of class "____" with value
+// update with value
 function updateTime(value) {
-    document.getElementById("range").innerHTML=dates[value];
-    inputValue = dates[value];
-    currentDate = testDates[value];
+    // document.getElementById("range").innerHTML=dates[value - 1];
+    inputValue = dates[value - 1];
+    currentDate = testDates[value - 1];
     updateMap();
     updateWordCloud(currentCountry);
 };
+
+// ------------------------- END SLIDER CODE -------------------------
 
 const radioButtonInput = document.getElementById("btn-group");
 radioButtonInput.addEventListener('input', updateIncludeUS);
