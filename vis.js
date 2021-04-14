@@ -38,7 +38,8 @@ let map_svg = svg.append("g");
 var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
 
 var colorScale = d3.scaleLinear()
-  .domain([1, 100, 500, 1000, 1500, 2000, 2500])
+  // log scale, base 4
+  .domain([1, 4, 16, 64, 256, 1024, 4096])
   .range(d3.schemeBlues[7]);
 
 map_svg.selectAll("path")
@@ -214,7 +215,7 @@ function updateMap() {
   
   var legendLinear = d3.legendColor()
     .shapeWidth(30)
-    .cells([1, 100, 500, 1000, 1500, 2000, 2500])
+    .cells([1, 4, 16, 64, 256, 1024, 4096])
     .orient('horizontal')
     .scale(colorScale);
   
