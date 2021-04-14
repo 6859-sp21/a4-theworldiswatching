@@ -36,7 +36,9 @@ We convert the cleaned CSV file into a GeoJSON file for displaying the geographi
 
 ### Encodings
 
-For our visualization, we used a variety of visual encodings to effectively communicate its intended message to viewers. Primarily, *The World is Watching* represents the quantity of election-related Tweets using a chloropleth - a map that uses color as a visual encoding. Color serves as an effective encoding for Tweet count because, combined with the specific number tooltip, it provides an accurate view of countries' relative Tweet counts compared to each other. Additionally, the word cloud uses size as a visual encoding for the number of Tweets containing a particular hashtag. This encoding is effective because it allows viewers to compare hashtag frequency while making the hashtags visible. It also takes advantage of the cultural significance of word maps, serving as a familiar format for audiences.
+For our visualization, we used a variety of visual encodings to effectively communicate its intended message to viewers. Primarily, *The World is Watching* represents the quantity of election-related Tweets using a chloropleth - a map that uses color as a visual encoding. Color serves as an effective encoding for Tweet count because, combined with the specific number tooltip, it provides an accurate view of countries' relative Tweet counts compared to each other. We use a log scale for the color legend because it suits the nature of the dataset better -- the United States is an outlier with a significantly higher number of tweets for all dates in our range, so we wished to enable viewers to more clearly see trends in the number of tweets outside the US too.
+
+Additionally, the word cloud uses size as a visual encoding for the number of Tweets containing a particular hashtag. This encoding is effective because it allows viewers to compare hashtag frequency while making the hashtags visible. It also takes advantage of the cultural significance of word maps, serving as a familiar format for audiences.
 
 
 
@@ -45,7 +47,9 @@ For our visualization, we used a variety of visual encodings to effectively comm
 We added the following interactions and animation techniques:
 
 #### Slider
-Above the map, we have a time slider that can be changed either by dragging or clicking. Since it is quite clear that the slider can be moved to the left and right to vary time, we do not explicitly include textual instructions for the time slider directly beside the slider. We do, however, include supplementary instructions upon clicking the question mark icon on the bottom left.
+Above the map, we have a time slider that can be changed either by dragging or clicking. As 
+
+Since it is quite clear that the slider can be moved to the left and right to vary time, we do not explicitly include textual instructions for the time slider directly beside the slider. We do, however, include supplementary instructions upon clicking the question mark icon on the bottom left.
 
 #### Tooltip
 interaction hidden/not hidden -- guidance?
