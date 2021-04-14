@@ -56,13 +56,8 @@ To the right of the map, we have a search bar for hashtags, and the map updates 
 
 Since it is quite clear from the placeholder and icons that the search bar can be used to input hashtags, we do not explicitly include textual instructions for the search bar directly beside the slider. We do, however, include supplementary instructions about the 'hashtag search' upon clicking the question mark icon on the bottom left.
 
-#### Tooltip
-interaction hidden/not hidden -- guidance?
-
-#### Click on country
-interaction hidden/not hidden -- guidance?
-
-* Zoom animation
+#### Tooltip and Country Zoom
+When the viewer hovers over a country, the visualization shows the name of the country and the number of tweets for the particular day. This tooltip works both for countries that are zoomed in and out. When a viewer clicks on a country, the country is zoomed in and centered. This zooming feature, combined with the tooltip feature, can enable viewers to explore a variety of countries, especially small countries that may not be easily explorable on a zoomed out map. Because users may not be previously familiar with the zooming interaction, we include a sentence below the map with zooming instructions. 
 
 #### Click on word cloud
 interaction hidden/not hidden -- guidance?
