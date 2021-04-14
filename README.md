@@ -2,7 +2,9 @@
 
 6.859 Assignment 4 completed by Charvi Gopal, Eesam Hourani, and Stacia Johanna.
 
-## Intended Goals - Eesam
+## Intended Goals
+
+*The World is Watching: US Election 2020* aims to give viewers an idea on how the world viewed the 2020 U.S. Election by using 
 
 * Answer the question: "what does the world think of the U.S.?"
 * Perhaps include quote from peer review re: international focus
@@ -11,7 +13,9 @@
 
 ## Dataset - Eesam
 
-The dataset used in this visualization is US Election 2020 tweets from October 15, 2020 to November 8, 2020. Because of size restriction, only 50,000 tweets data is used.
+The dataset used in this visualization is US Election 2020 tweets from October 15, 2020 to November 8, 2020. Because of GitHub's maximize size restriction, we only used 50,000 tweets, which is about 10% of the overall database.
+
+Tweets 
 
 The dataset is acquired from https://www.kaggle.com/manchunhui/us-election-2020-tweets.
 
