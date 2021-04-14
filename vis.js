@@ -2,13 +2,34 @@ let width = 800, height = 400, centered; // TODO: change these to fit the screen
 let projection = d3.geoEquirectangular();
 projection.fitSize([width, height], small_data);
 let geoGenerator = d3.geoPath().projection(projection);
+
+var colorScale = d3.scaleLog()
+// log scale, base 4
+.domain([1, 4, 16, 64, 256, 1024, 4096])
+.range(d3.schemeBlues[7]);
+
 let svg = d3.select("#map-placeholder").append('svg')
             .style("width", width).style("height", height);
 
-svg.append("rect")
+let rect_svg = svg.append("rect")
     .attr("width", "100%")
     .attr("height", "100%")
     .attr("fill", "black");
+
+    let legend_svg = svg.append("g")
+    .attr("class", "legendQuant")
+    .attr("transform", "translate(0,200)")
+    .attr("fill", "white");
+    
+    var legendLog = d3.legendColor()
+    .shapeWidth(30)
+    .cells([0, 4, 16, 64, 256, 1024, 4096])
+    .orient('vertical')
+    .scale(colorScale)
+    .title("Number of Tweets")
+    
+    svg.select(".legendQuant")
+    .call(legendLog);
 
 const WORLDWIDE = "Worldwide";
 // ---  Default values
@@ -23,8 +44,6 @@ var tip = d3.tip()
                 if (currentCountry == WORLDWIDE) {
                     return [this.getBBox().height/4, this.getBBox().width/4]
                 } else {
-                    console.log(this.getBBox().height, " height")
-                    console.log(this.getBBox().width, " width")
                     return [this.getBBox().height, this.getBBox().width]
                 }
               }) 
@@ -37,23 +56,21 @@ svg.call(tip);
 let map_svg = svg.append("g");
 var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
 
-var colorScale = d3.scaleLog()
-  // log scale, base 4
-  .domain([1, 4, 16, 64, 256, 1024, 4096])
-  .range(d3.schemeBlues[7]);
-
 map_svg.selectAll("path")
         .data(world_map_json.features)
         .enter()
         .append("path")
         .attr( "fill", function (d) {
             d.total = tweetsByCountry.get(d.properties.name) || 0;
+            if (d.properties.name == "United States" & ! includeUS) {
+                return "#808080";
+            }
             return colorScale(d.total);
         })
         .style('cursor', 'pointer')
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
-        .attr("stroke", "black")
+        .attr("fill", "white")
         .attr("d", geoGenerator )
         .on("click", clicked);
 updateMap();
@@ -155,6 +172,7 @@ function clearSearch() {
 }
 
 function updateMap() {
+
     // Filter and get new data
     const newData = small_data.features
                          .filter(function(data) {
@@ -176,8 +194,6 @@ function updateMap() {
                 if (currentCountry == WORLDWIDE) {
                     return [this.getBBox().height/4, this.getBBox().width/4]
                 } else {
-                    console.log(this.getBBox().height, " height")
-                    console.log(this.getBBox().width, " width")
                     return [this.getBBox().height, this.getBBox().width]
                 }
               })
@@ -193,6 +209,9 @@ function updateMap() {
     .join("path")
     .attr( "fill", function (d) {
         d.total = tweetsByCountry.get(d.properties.name) || 0;
+        if (d.properties.name == "United States" & ! includeUS) {
+            return "#808080";
+        }
         return colorScale(d.total);
       })
     .on('mouseover', tip.show)
@@ -201,19 +220,6 @@ function updateMap() {
     .attr("border-color", "black")
     .attr("d", geoGenerator )
     .on("click", clicked);
-
-    svg.append("g")
-    .attr("class", "legendLinear")
-    .attr("transform", "translate(450,300)");
-  
-  var legendLinear = d3.legendColor()
-    .shapeWidth(30)
-    .cells([1, 4, 16, 64, 256, 1024, 4096])
-    .orient('horizontal')
-    .scale(colorScale);
-  
-  svg.select(".legendLinear")
-    .call(legendLinear);
 }
 
 function clicked(d) {
@@ -241,6 +247,25 @@ function clicked(d) {
         .duration(750)
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
         .style("stroke-width", 1.5 / k + "px");
+
+    legend_svg.selectAll('*').remove();
+
+    if (currentCountry == WORLDWIDE) {
+        let legend_svg = svg.append("g")
+        .attr("class", "legendQuant")
+        .attr("transform", "translate(0,200)")
+        .attr("fill", "white");
+        
+        var legendLog = d3.legendColor()
+        .shapeWidth(30)
+        .cells([0, 4, 16, 64, 256, 1024, 4096])
+        .orient('vertical')
+        .scale(colorScale)
+        .title("Number of Tweets");
+        
+        svg.select(".legendQuant")
+        .call(legendLog);
+    } 
     
     updateWordCloud(currentCountry);
 }
