@@ -44,17 +44,19 @@ Additionally, the word cloud uses size as a visual encoding for the number of Tw
 
 ### Interactions & Animation Techniques - Charvi
 
-We added the following interactions and animation techniques:
+We added the following interactions and animation techniques, and we attempted to minimize hidden interactions.
 
 #### Slider
-Above the map, we have a time slider that can be changed either by dragging or clicking. As 
+Above the map, we have a time slider that can be changed either by dragging or clicking. As one moves the time slider, both the map and hashtag word cloud update.
 
-Since it is quite clear that the slider can be moved to the left and right to vary time, we do not explicitly include textual instructions for the time slider directly beside the slider. We do, however, include supplementary instructions upon clicking the question mark icon on the bottom left.
-
-#### Tooltip
-interaction hidden/not hidden -- guidance?
+Since it is quite clear that the slider can be moved to the left and right to vary time, we do not explicitly include textual instructions for the time slider directly beside the slider. We do, however, include supplementary instructions about the 'timeline' upon clicking the question mark icon on the bottom left.
 
 #### Search bar
+To the right of the map, we have a search bar for hashtags, and the map updates in real time as one types hashtags. The 'x' button on the right hand side can be used to empty the search bar.
+
+Since it is quite clear from the placeholder and icons that the search bar can be used to input hashtags, we do not explicitly include textual instructions for the search bar directly beside the slider. We do, however, include supplementary instructions about the 'hashtag search' upon clicking the question mark icon on the bottom left.
+
+#### Tooltip
 interaction hidden/not hidden -- guidance?
 
 #### Click on country
