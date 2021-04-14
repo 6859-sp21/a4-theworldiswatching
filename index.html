@@ -12,13 +12,15 @@
   <script src="d3-tip.js"></script>
   <script src="./data/world.json"></script>
   <script src="./data/combined_data_small.geojson"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
 </head>
 
 <body>
   <h2 class="title">The World is Watching: US Election 2020</h2>
 
   <div class="description">
-    How were people around the world talking about the 2020 US Election? When and where were people tweeting the most? What were they tweeting about? This map contains 50,000 randomly-sampled tweets, which represents about 10% of the total number of election-related tweets from October 15 - November 8, 2020.
+    How were people around the world talking about the 2020 US Election? When and where were people tweeting the most? What were they tweeting about? 
+    <br>This map contains 50,000 randomly-sampled tweets, which represents about 10% of the total number of election-related tweets from October 15 - November 8, 2020.
   </div>
 
   <!-- SLIDER CODE -->
@@ -29,38 +31,39 @@
     </div>
     
     <ul class="range-labels">
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li>Final Presidential Debate</li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
+      
+      <li>Oct<br>15</li>
+      <li>Oct<br>16</li>
+      <li>Oct<br>17</li>
+      <li>Oct<br>18</li>
+      <li>Oct<br>19</li>
+      <li>Oct<br>20</li>
+      <li>Oct<br>21</li>
+      <li>Final Debate</li>
+      <li>Oct<br>23</li>
+      <li>Oct<br>24</li>
+      <li>Oct<br>25</li>
+      <li>Oct<br>26</li>
+      <li>Oct<br>27</li>
+      <li>Oct<br>28</li>
+      <li>Oct<br>29</li>
+      <li>Oct<br>30</li>
+      <li>Oct<br>31</li>
+      <li>Nov<br>1</li>
+      <li>Nov<br>2</li>
       <li class="active selected">Election Day</li>
-      <li><br></li>
-      <li><br></li>
-      <li><br></li>
+      <li>Nov<br>4</li>
+      <li>Nov<br>5</li>
+      <li>Nov<br>6</li>
       <li>Biden Declared Winner</li>
-      <li><br></li>
+      <li>Nov<br>8</li>
     </ul>
   </div>
 
   <!-- END SLIDER CODE -->
 
   <div class="map-and-sidebar">
-    
+
     <div class='map'>
       <div id="map-placeholder"></div>
       <div class="map-direction"> Click on any country to zoom in, and click on the same country to zoom out.</div>
@@ -161,6 +164,10 @@
     flex-flow: column;
     padding: 20px;
     width: 100%;
+  }
+
+  .legendQuant {
+    font-size: 11px;
   }
 
   .map-direction {
@@ -386,35 +393,6 @@
 	 display: none;
 }
 
-/* Tooltip container */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-
-/* Tooltip text */
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -60px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
- 
-  /* Position the tooltip text - see examples below! */
-  position: absolute;
-  z-index: 1;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
 </style>
 </style>
 
