@@ -12,6 +12,7 @@
   <script src="d3-tip.js"></script>
   <script src="./data/world.json"></script>
   <script src="./data/combined_data_small.geojson"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
 </head>
 
 <body>
@@ -60,7 +61,7 @@
   <!-- END SLIDER CODE -->
 
   <div class="map-and-sidebar">
-    
+
     <div class='map'>
       <div id="map-placeholder"></div>
     </div>
@@ -148,6 +149,15 @@
     display: flex;
     padding: 20px;
     width: 100%;
+  }
+
+  .legend {
+    display: table;
+    margin: 0 auto;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    height: 35px;
+    width: 250px;
   }
 
   .btn-group {

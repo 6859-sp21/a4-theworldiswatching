@@ -37,7 +37,7 @@ svg.call(tip);
 let map_svg = svg.append("g");
 var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
 
-var colorScale = d3.scaleThreshold()
+var colorScale = d3.scaleLinear()
   .domain([1, 100, 500, 1000, 1500, 2000, 2500])
   .range(d3.schemeBlues[7]);
 
@@ -206,6 +206,19 @@ function updateMap() {
     .attr("border-color", "black")
     .attr("d", geoGenerator )
     .on("click", clicked);
+
+    svg.append("g")
+    .attr("class", "legendLinear")
+    .attr("transform", "translate(450,300)");
+  
+  var legendLinear = d3.legendColor()
+    .shapeWidth(30)
+    .cells([1, 100, 500, 1000, 1500, 2000, 2500])
+    .orient('horizontal')
+    .scale(colorScale);
+  
+  svg.select(".legendLinear")
+    .call(legendLinear);
 }
 
 function clicked(d) {
