@@ -56,10 +56,14 @@ TODO - Stacia
   
 
 ### Exploring Alternatives - Stacia
+#### Choropleth VS Bubble Map
+For the main visualization, we are considering between using choropleth and bubble map to visualize the number of tweets available. We decided against bubble map since some of the countries are really small, so if the diameter of the bubble is larger than the country, it will cover the others. Also, some of the countries have very few tweets, and this will cause the size of the bubble to be too small and not visible.
 
+Other than from our own discussion, we also
+
+#### Word Cloud VS Leaderboard
 * Bubble map vs. chloropleth --> peer review feedback
 * Word cloud vs. leaderboard --> size encoding gives a sense of magnitude as opposed to leaderboard
-* TODO: anything else?
 
 
 
