@@ -26,9 +26,11 @@ Then, we extract the hashtags from the tweet column using regex, and create a ne
 
 In the Kaggle website, the data that we obtained are separated into 2 different .csv files: one for Biden-related tweets, and the other for Trump-related tweets. After doing all the steps mentioned in the previous paragraphs for both datasets, we combine both of them into 1 table. Since some of the tweets may contain both #biden and #trump, we remove all the duplicates in the combined table.
 
-As the final step, because Github has size limit of 100 MB per file and to ensure the smoothness of the interaction in our website, we shuffle all the rows in the combined data, then take the top 50,000 rows to be visualized in the website.
+As the final step, because Github has size limit of 100 MB per file and to ensure the smoothness of the interaction in our website, we shuffle all the rows in the combined data, then take the top 50,000 rows to be visualized in the website. 
 
 To see more detail on how the data is cleaned, check out Data Cleaning.ipynb in the `scripts` folder.
+
+We convert the cleaned CSV file into a GeoJSON file for displaying the geographical data on a map using another script.
 
 ## Design Decisions
 
@@ -83,7 +85,8 @@ Below is a person-by-person breakdown of project contributions:
 
 | Name           | Project Contribution                                         |
 | -------------- | ------------------------------------------------------------ |
-| Charvi Gopal   | dataset-finding, GeoJSON conversion, basic choropleth logic, zooming behavior, legend                                                              |
+| Charvi Gopal   | dataset-finding, 
+conversion, basic choropleth logic, zooming behavior, legend                                                              |
 | Eesam Hourani  | Initial exploratory analysis, time slider data filtering, time slider improved design, writeup outline |
 | Stacia Johanna | Data cleanup, UI and d3/data processing of: hashtag search, word cloud, include/exclude US toggle, overall web layout, help button popover |
 
