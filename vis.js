@@ -125,7 +125,6 @@ d3.select(".range input").on("input", function() {
 
 // update with value
 function updateTime(value) {
-    inputValue = dates[value - 1];
     currentDate = testDates[value - 1];
     updateMap();
     updateWordCloud(currentCountry);
