@@ -84,8 +84,7 @@ Below is a person-by-person breakdown of project contributions:
 
 | Name           | Project Contribution                                         |
 | -------------- | ------------------------------------------------------------ |
-| Charvi Gopal   | dataset-finding, 
-conversion, basic choropleth logic, zooming behavior, legend                                                              |
+| Charvi Gopal   | dataset-finding, conversion, basic choropleth logic, zooming behavior, legend                                                              |
 | Eesam Hourani  | Initial exploratory analysis, time slider data filtering, time slider improved design, writeup outline |
 | Stacia Johanna | Data cleanup, UI and d3/data processing of: hashtag search, word cloud, include/exclude US toggle, overall web layout, help button popover |
 
