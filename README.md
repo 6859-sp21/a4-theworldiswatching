@@ -71,7 +71,7 @@ To give suggestions of what hashtags that readers can search, we provide word cl
 
 ##### Total Time Spent: 60 hrs
 
-Of this time, the most difficult and time-consuming tasks involved conducting the data cleanup and initially plotting the data on a world map. Specifically, (TODO - describe data cleanup time consuming). Additionally, we faced a significant roadblock when trying to plot the data on a map. It took several iterations before we realized we needed to convert our CSV into TopoJSON to make it compatible with d3. It also took us time to figure out that in order to have the lat/long points show up on a baseline map, we needed to plot a TopoJSON world map projection. After moving past these roadblocks, we were on course to make a usable, insightful MVP that would motivate our final submission.
+Of this time, the most difficult and time-consuming tasks involved conducting the data cleanup and initially plotting the data on a world map. Specifically, the initial data that we acquired from Kaggle requires us to use different delimiter and encoding for it to be readable in Tableau. Also, some of the newline spaces in the tweets column are not parsed correctly, thus we have to manually find and remove those rows from the table so the rest of the data can be parsed. Additionally, we faced a significant roadblock when trying to plot the data on a map. It took several iterations before we realized we needed to convert our CSV into TopoJSON to make it compatible with d3. It also took us time to figure out that in order to have the lat/long points show up on a baseline map, we needed to plot a TopoJSON world map projection. After moving past these roadblocks, we were on course to make a usable, insightful MVP that would motivate our final submission.
 
 Below is a person-by-person breakdown of project contributions:
 
@@ -79,7 +79,7 @@ Below is a person-by-person breakdown of project contributions:
 | -------------- | ------------------------------------------------------------ |
 | Charvi Gopal   |                                                              |
 | Eesam Hourani  | Initial exploratory analysis, time slider data filtering, time slider improved design, writeup outline |
-| Stacia Johanna | Data cleanup, hashtag search, word cloud, include/exclude US toggle, overall web layout, help button popover |
+| Stacia Johanna | Data cleanup, UI and d3/data processing of: hashtag search, word cloud, include/exclude US toggle, overall web layout, help button popover |
 
 
 
