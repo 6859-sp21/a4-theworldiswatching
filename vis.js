@@ -112,7 +112,6 @@ d3.select(".range input").on("input", function() {
 
 // update with value
 function updateTime(value) {
-    // document.getElementById("range").innerHTML=dates[value - 1];
     inputValue = dates[value - 1];
     currentDate = testDates[value - 1];
     updateMap();
