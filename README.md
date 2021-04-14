@@ -4,22 +4,17 @@
 
 ## Intended Goals
 
-*The World is Watching: US Election 2020* aims to give viewers an idea on how the world viewed the 2020 U.S. Election by using 
-
-* Answer the question: "what does the world think of the U.S.?"
-* Perhaps include quote from peer review re: international focus
+*The World is Watching: US Election 2020* tells the story of the world intently watching the 2020 U.S. Election. Using tens of thousands of tweets from the days leading up to the election, our visualization makes use of Tweet and hashtag counts to answer the question, "What does the world think of the 2020 U.S. Election?" Viewers can explore the dates and hashtags that result in the greatest number of Tweets. One can also zoom in and focus on a specific country or watch the globe discuss the election. With this visualization, we hope viewers can gain a global perspective on such a consequential election in modern American history.
 
 
 
-## Dataset - Eesam
+## Dataset
 
 The dataset used in this visualization is US Election 2020 tweets from October 15, 2020 to November 8, 2020. Because of GitHub's maximize size restriction, we only used 50,000 tweets, which is about 10% of the overall database.
 
-Tweets 
+The dataset is acquired from https://www.kaggle.com/manchunhui/us-election-2020-tweets. The time zone of all Tweets is GMT+0.
 
-The dataset is acquired from https://www.kaggle.com/manchunhui/us-election-2020-tweets.
 
-* Time zone
 
 ### Data Cleanup
 
@@ -37,19 +32,11 @@ To see more detail on how the data is cleaned, check out Data Cleaning.ipynb in 
 
 ## Design Decisions
 
-### Encodings - Eesam
+### Encodings
 
-* Map
+For our visualization, we used a variety of visual encodings to effectively communicate its intended message to viewers. Primarily, *The World is Watching* represents the quantity of election-related Tweets using a chloropleth - a map that uses color as a visual encoding. Color serves as an effective encoding for Tweet count because, combined with the specific number tooltip, it provides an accurate view of countries' relative Tweet counts compared to each other. Additionally, the word cloud uses size as a visual encoding for the number of Tweets containing a particular hashtag. This encoding is effective because it allows viewers to compare hashtag frequency while making the hashtags visible. It also takes advantage of the cultural significance of word maps, serving as a familiar format for audiences.
 
-* Color
 
-* Word cloud uses size
-
-* Tooltip details on tweet count
-
-* TODO: anything else?
-
-  
 
 ### Interactions & Animation Techniques - Charvi
 
@@ -63,32 +50,36 @@ To see more detail on how the data is cleaned, check out Data Cleaning.ipynb in 
 
 * Zoom animation
 
+* Click on word cloud
+
 * TODO: anything else?
 
   
 
 ### Exploring Alternatives
-#### Choropleth VS Bubble Map
+#### Choropleth vs. Bubble Map
 For the main visualization, we are considering between using choropleth and bubble map to visualize the number of tweets available. We decided against bubble map since some of the countries are really small, so if the diameter of the bubble is larger than the country, it will cover the others. Also, some of the countries have very few tweets, and this will cause the size of the bubble to be too small and not visible.
 
 Other than from our own discussion, we also consider the peer review feedbacks, in which almost all of them agree that choropleth is better to visualize our data compared to bubble map for the same reasons we stated above. 
 
-#### Word Cloud VS Leaderboard
+#### Word Cloud vs. Leaderboard
 To give suggestions of what hashtags that readers can search, we provide word cloud near the search bar. Initially, we are considering between using word cloud or leaderboard. We decided to use word cloud as the size encoding can give users a sense of magnitude instead of just listing the hashtags in the form of leaderboard. Also, the size of the hashtags can help users to know which hashtags to focus on, as the more the hashtags are mentioned in the tweets, the larger the hashtags will be.
 
 
 
 ## Development Process
 
-* Total time spent:
+##### Total Time Spent: 60 hrs
 
-* What took the most time? Data cleanup, putting the map together (TopoJSON of world map) - Eesam
+Of this time, the most difficult and time-consuming tasks involved conducting the data cleanup and initially plotting the data on a world map. Specifically, (TODO - describe data cleanup time consuming). Additionally, we faced a significant roadblock when trying to plot the data on a map. It took several iterations before we realized we needed to convert our CSV into TopoJSON to make it compatible with d3. It also took us time to figure out that in order to have the lat/long points show up on a baseline map, we needed to plot a TopoJSON world map projection. After moving past these roadblocks, we were on course to make a usable, insightful MVP that would motivate our final submission.
 
-| Name           | Project Contribution |
-| -------------- | -------------------- |
-| Charvi Gopal   |                      |
-| Eesam Hourani  |                      |
-| Stacia Johanna | data cleanup, hashtag search, word cloud, include/exclude US toggle, overall web layout, help button popover.              |
+Below is a person-by-person breakdown of project contributions:
+
+| Name           | Project Contribution                                         |
+| -------------- | ------------------------------------------------------------ |
+| Charvi Gopal   |                                                              |
+| Eesam Hourani  | Initial exploratory analysis, time slider data filtering, time slider improved design, writeup outline |
+| Stacia Johanna | Data cleanup, hashtag search, word cloud, include/exclude US toggle, overall web layout, help button popover |
 
 
 
