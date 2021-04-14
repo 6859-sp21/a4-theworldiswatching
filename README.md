@@ -42,7 +42,7 @@ Additionally, the word cloud uses size as a visual encoding for the number of Tw
 
 
 
-### Interactions & Animation Techniques - Charvi
+### Interactions & Animation Techniques
 
 We added the following interactions and animation techniques, and we attempted to minimize hidden interactions.
 
@@ -56,13 +56,11 @@ To the right of the map, we have a search bar for hashtags, and the map updates 
 
 Since it is quite clear from the placeholder and icons that the search bar can be used to input hashtags, we do not explicitly include textual instructions for the search bar directly beside the slider. We do, however, include supplementary instructions about the 'hashtag search' upon clicking the question mark icon on the bottom left.
 
+#### Click on word cloud
+The hashtag word cloud enables users to interact with the content of the text in the tweets, both worldwide and by country. It updates whenever one clicks on a country, moves the time slider, or chooses 'Include US' or 'Exclude US'. When someone clicks on a particular hashtag on the word cloud, the search bar automatically updates with the hashtag.   
+
 #### Tooltip and Country Zoom
 When the viewer hovers over a country, the visualization shows the name of the country and the number of tweets for the particular day. This tooltip works both for countries that are zoomed in and out. When a viewer clicks on a country, the country is zoomed in and centered. This zooming feature, combined with the tooltip feature, can enable viewers to explore a variety of countries, especially small countries that may not be easily explorable on a zoomed out map. Because users may not be previously familiar with the zooming interaction, we include a sentence below the map with zooming instructions. 
-
-#### Click on word cloud
-interaction hidden/not hidden -- guidance?
-
-
   
 
 ### Exploring Alternatives
