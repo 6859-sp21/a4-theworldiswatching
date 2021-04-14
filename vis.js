@@ -37,7 +37,7 @@ svg.call(tip);
 let map_svg = svg.append("g");
 var tweetsByCountry = d3.rollup(small_data.features, v => v.length, d => d.properties.country);
 
-var colorScale = d3.scaleLinear()
+var colorScale = d3.scaleLog()
   // log scale, base 4
   .domain([1, 4, 16, 64, 256, 1024, 4096])
   .range(d3.schemeBlues[7]);
