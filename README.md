@@ -45,7 +45,7 @@ For our visualization, we used a variety of visual encodings to effectively comm
 We added the following interactions and animation techniques:
 
 #### Slider
-interaction hidden/not hidden -- guidance?
+Above the map, we have a time slider that can be changed either by dragging or clicking. Since it is quite clear that the slider can be moved to the left and right to vary time, we do not explicitly include textual instructions for the time slider directly beside the slider. We do, however, include supplementary instructions upon clicking the question mark icon on the bottom left.
 
 #### Tooltip
 interaction hidden/not hidden -- guidance?
