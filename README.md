@@ -56,7 +56,7 @@ To the right of the map, we have a search bar for hashtags, and the map updates 
 
 Since it is quite clear from the placeholder and icons that the search bar can be used to input hashtags, we do not explicitly include textual instructions for the search bar directly beside the slider. We do, however, include supplementary instructions about the 'hashtag search' upon clicking the question mark icon on the bottom left.
 
-#### Click on word cloud
+#### Word cloud
 The hashtag word cloud enables users to interact with the content of the text in the tweets, both worldwide and by country. It updates whenever one clicks on a country, moves the time slider, or chooses 'Include US' or 'Exclude US'. When someone clicks on a particular hashtag on the word cloud, the search bar automatically updates with the hashtag.   
 
 #### Tooltip and Country Zoom
