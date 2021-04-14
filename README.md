@@ -69,7 +69,7 @@ To give suggestions of what hashtags that readers can search, we provide word cl
 
 ## Development Process
 
-##### Total Time Spent: TODO
+##### Total Time Spent: 60 hrs
 
 Of this time, the most difficult and time-consuming tasks involved conducting the data cleanup and initially plotting the data on a world map. Specifically, (TODO - describe data cleanup time consuming). Additionally, we faced a significant roadblock when trying to plot the data on a map. It took several iterations before we realized we needed to convert our CSV into TopoJSON to make it compatible with d3. It also took us time to figure out that in order to have the lat/long points show up on a baseline map, we needed to plot a TopoJSON world map projection. After moving past these roadblocks, we were on course to make a usable, insightful MVP that would motivate our final submission.
 
