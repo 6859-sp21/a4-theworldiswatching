@@ -32,19 +32,11 @@ To see more detail on how the data is cleaned, check out Data Cleaning.ipynb in 
 
 ## Design Decisions
 
-### Encodings - Eesam
+### Encodings
 
-* Map
+For our visualization, we used a variety of visual encodings to effectively communicate its intended message to viewers. Primarily, *The World is Watching* represents the quantity of election-related Tweets using a chloropleth - a map that uses color as a visual encoding. Color serves as an effective encoding for Tweet count because, combined with the specific number tooltip, it provides an accurate view of countries' relative Tweet counts compared to each other. Additionally, the word cloud uses size as a visual encoding for the number of Tweets containing a particular hashtag. This encoding is effective because it allows viewers to compare hashtag frequency while making the hashtags visible. It also takes advantage of the cultural significance of word maps, serving as a familiar format for audiences.
 
-* Color
 
-* Word cloud uses size
-
-* Tooltip details on tweet count
-
-* TODO: anything else?
-
-  
 
 ### Interactions & Animation Techniques - Charvi
 
@@ -57,6 +49,8 @@ To see more detail on how the data is cleaned, check out Data Cleaning.ipynb in 
 * Click on country
 
 * Zoom animation
+
+* Click on word cloud
 
 * TODO: anything else?
 
